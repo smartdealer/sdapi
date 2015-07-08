@@ -1,7 +1,7 @@
 # Smart Dealer Client API
 API de comunicação com o software para revendas e concessionárias Smart Dealer
 
-Para mais informações, acesso nosso [site](http://smartdealership.com.br).
+Para mais informações, acesse o nosso [site](http://smartdealership.com.br).
 
 Direitos reservados à Smart Dealer Soluções em Software Ltda.
 
