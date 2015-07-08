@@ -28,7 +28,7 @@ Direitos reservados à Smart Dealer Soluções em Software Ltda.
 
 ~~~.php
   # call method
-  $ret = $api->post('/parts/');
+  $ret = $api->get('/parts/');
   
   # output (Array)
   array(
