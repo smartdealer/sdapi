@@ -61,4 +61,4 @@ Direitos reservados à Smart Dealer Soluções em Software Ltda.
 
 ### Documentação
 
-Faça o download da [documentação](http://smartdealer.com.br/docs/api/sdapi-manual.pdf) em PDF. 
+Faça o download da [documentação](http://smartdealership.com.br/docs/api/sdapi-manual.pdf) em PDF. 
