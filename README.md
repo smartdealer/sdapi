@@ -49,7 +49,7 @@ Direitos reservados à Smart Dealer Soluções em Software Ltda.
       'fab'    => '1 - FIAT' 
     ),
     2 => array(
-      'codigo' => 0002
+      'codigo' => 0003
       'nome'   => 'Motor Limpador de Parabrisa (UNO Vivace)',
       'modelo' => 'MCBSA-88',
       'preco'  => 120.00,
