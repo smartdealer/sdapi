@@ -29,9 +29,30 @@ class Api {
         'debug' => false
     );
     var $methods = array(
-        '/parts/' => 'return the stock part listing',
-        '/parts/order/' => 'register or update stock part order',
-        '/parts/order/:id' => 'delete stock part order'
+        '/config/affiliates/' => array(
+            'method' => 'get',
+            'desc' => 'return branches listing (affiliates)'
+        ),
+        '/parts/' => array(
+            'method' => 'get',
+            'desc' => 'returns a parts list'
+        ),
+        '/parts/provider/' => array(
+            'method' => 'get',
+            'desc' => 'returns to manufacturer list (providers)'
+        ),
+        '/parts/order/' => array(
+            'method' => 'post',
+            'desc' => 'create or update parts orders',
+        ),
+        '/parts/notify/' => array(
+            'method' => 'post',
+            'desc' => 'create or update pending the parts inventory (alerts)',
+        ),
+        '/parts/order/:id' => array(
+            'method' => 'delete',
+            'desc' => 'delete part orders',
+        ),
     );
 
     const WS_PATH = '.smartdealer.com.br/webservice/rest/';
@@ -170,7 +191,7 @@ class Api {
 
                     // exec
                     $a = curl_exec($cr);
-  
+
                     // close
                     curl_close($cr);
 
@@ -190,7 +211,7 @@ class Api {
     public function methods() {
         return array_filter($this->methods);
     }
-    
+
     // @MIGRATE
     public function call($rest, $arg) {
 
@@ -297,13 +318,13 @@ class Api {
         // pingback
         ob_start();
         $a = @get_headers($this->sdl);
-        $b = ob_get_contents();
+        $b = ob_get_contents();        
         ob_end_clean();
-
-        $sign = (array) explode(':', current((array) preg_grep('/Server-Signature/i', $a)));
+        
+        $sign = (is_array($a)) ? (array) explode(':', current((array) preg_grep('/Server-Signature/i', $a))) : array();
 
         // send status
-        return !strstr($a[0], '404') && trim(end($sign)) === self::WS_SIGNATURE;
+        return key_exists(0, $sign) && !strstr($a[0], '404') && trim(end($sign)) === self::WS_SIGNATURE;
     }
 
 }
