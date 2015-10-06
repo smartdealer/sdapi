@@ -53,6 +53,18 @@ class Api {
             'method' => 'delete',
             'desc' => 'delete part orders',
         ),
+        '/connect/packs/' => array(
+            'method' => 'get',
+            'desc' => 'list packs of stock integration (connect)',
+        ),
+        '/connect/pack/:id' => array(
+            'method' => 'get',
+            'desc' => 'list all offers of pack',
+        ),
+        '/connect/offers/' => array(
+            'method' => 'get',
+            'desc' => 'list all offers related',
+        )
     );
 
     const WS_PATH = '.smartdealer.com.br/webservice/rest/';
@@ -76,7 +88,11 @@ class Api {
 
     public function get($rest, $arg = array()) {
 
-        if (!in_array($rest, array_keys($this->methods)))
+        // detect pattern
+        $pat = '/^' . preg_replace(array('/\//', '/\d+$/'), array('\/', ':id'), $rest) . '$/';
+
+        // valid route
+        if (!preg_grep($pat, array_keys($this->methods)))
             $this->logError('The ' . $rest . ' method is invalid. Get $api->methods() to list available.');
 
         return ($this->getError()) ? array() : $this->call($rest, $arg);
@@ -121,7 +137,7 @@ class Api {
                     curl_close($cr);
 
                     break;
-                case 'socket' : // @testing: migrated all handlers
+                case 'socket' : // @see: method in testing
                     // build query
                     $arg = http_build_query($arg);
 
@@ -145,9 +161,6 @@ class Api {
                             echo fgets($fp, 128);
                         fclose($fp);
                     }
-
-                    var_dump($a, trim($host, '/'));
-                    die;
 
                     break;
             }
@@ -212,7 +225,6 @@ class Api {
         return array_filter($this->methods);
     }
 
-    // @MIGRATE
     public function call($rest, $arg) {
 
         // check server
@@ -318,9 +330,9 @@ class Api {
         // pingback
         ob_start();
         $a = @get_headers($this->sdl);
-        $b = ob_get_contents();        
+        $b = ob_get_contents();
         ob_end_clean();
-        
+
         $sign = (is_array($a)) ? (array) explode(':', current((array) preg_grep('/Server-Signature/i', $a))) : array();
 
         // send status
