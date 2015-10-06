@@ -11,17 +11,18 @@ Direitos reservados à Smart Dealer Soluções em Software Ltda.
   # include API class
   include_once 'sdapi.class.php';
   
-  # URL instance name
+  # client name OR direct instance URL (prima or prima.smartdealer.com.br)
   $env = 'prima';
   
   # login webservice Rest
   $usr = 'primafiat';    
   
   # password webservice Rest (example)
-  $pwd = 'unXEmpkV7u';     
+  $pwd = 'unXEmpkV7ush#';     
   
   # init API
   $api = new Smart\Api($env, $usr, $pwd, array());
+  
 ~~~~
 
 ### Exemplo de uso
@@ -57,8 +58,55 @@ Direitos reservados à Smart Dealer Soluções em Software Ltda.
       'fab'    => '1 - FIAT' 
     )
   )
+  
 ~~~~
 
-### Documentação
+### Tipos de métodos
 
-Faça o download da [documentação](http://smartdealership.com.br/docs/api/sdapi-manual.pdf) em PDF. 
+#### GET (leitura de dados)
+
+~~~.php
+  
+  # reading data list
+  $api->get('/route/method');
+  
+  # reading specific data
+  $api->get('/route/method/:id');
+
+
+~~~
+
+#### POST (envio de dados)
+
+~~~.php
+  
+  $data = array();
+  
+  # send data (simple)
+  $api->post('/route/method/', $data);
+  
+  # send data with ID param (if required)
+  $api->post('/route/method/:id', $data);
+
+
+~~~
+
+#### DELETE (deleção de registros)
+
+~~~.php
+  
+  # delete data
+  $api->delete('/route/method/:id');
+
+
+~~~
+
+### Leitura de ofertas (Connect)
+
+Métodos para leitura de ofertas. Útil para portais e lojistas parceiros.
+
+Breve..
+
+### Documentação 
+
+Faça o download da [documentação](http://smartdealership.com.br/docs/api/sdapi-manual.pdf) em PDF (incompleto).
