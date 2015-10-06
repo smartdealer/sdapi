@@ -127,8 +127,10 @@ Lista os pacotes de ofertas disponíveis (connect)
 ##### GET : /connect/pack/:id 
 Lista as ofertas de um determinado pacote (connect)
 
-##### GET : /connect/offers/:id 
+##### GET : /connect/offers/
 Lista todas as ofertas do cliente
+
+   Observação:  os parâmetros dos métodos de envio (POST) serão adicionados no próximo update.
 
 ### Documentação em arquivo
 
