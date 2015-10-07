@@ -21,6 +21,7 @@ namespace Smart;
 class Api {
 
     private $sdl, $usr, $pwd, $error, $header_options = array();
+    
     var $settings = array(
         'handle' => 'curl',
         'timeout' => 10,
@@ -30,9 +31,11 @@ class Api {
         'output_format' => 1,
         'output_compile' => true
     );
+    
     var $ws_header_options = array(
         'output_format' => 'integer'
     );
+    
     var $methods = array(
         '/config/affiliates/' => array(
             'method' => 'get',
