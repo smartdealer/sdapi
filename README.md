@@ -1,5 +1,5 @@
 # Smart Dealer Client API
-API de comunicação com o software para revendas e concessionárias Smart Dealer
+API de comunicação (for PHP servers) com o software para revendas e concessionárias Smart Dealer
 
 Para mais informações, acesse o nosso [site](http://smartdealership.com.br).
 
