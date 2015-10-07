@@ -119,7 +119,7 @@ Registra ou atualiza a reserva de uma peça (e-commerce)
 Registra ou atualiza a lista de notificações, pendências no estoque (e-commerce) 
 
 ##### DELETE : /parts/order/:id 
-Delete a reserva de uma peça
+Remove a reserva de uma peça
 
 ##### GET : /connect/packs/ 
 Lista os pacotes de ofertas disponíveis (connect)
