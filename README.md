@@ -1,9 +1,15 @@
 # Smart Dealer Client API
-API de comunicação com o software para revendas e concessionárias Smart Dealer
+API de comunicação (for PHP servers) com o software para revendas e concessionárias Smart Dealer
 
 Para mais informações, acesse o nosso [site](http://smartdealership.com.br).
 
 Direitos reservados à Smart Dealer Soluções em Software Ltda.
+
+### Requísitos 
+
+* PHP 5.3 ou superior
+* Extensões do PHP "php_curl" e "php_openssl"
+* Apache 2.2+
 
 ### Autenticação
 
@@ -130,7 +136,71 @@ Lista as ofertas de um determinado pacote (connect)
 ##### GET : /connect/offers/
 Lista todas as ofertas do cliente
 
-   Observação:  os parâmetros dos métodos de envio (POST) serão adicionados no próximo update.
+### Parâmetros de configuração
+
+~~~.php
+
+  # the API settings
+  $settings = array(
+    'handle' => 'curl',
+    'timeout' => 10,
+    'use_ssl' => false,
+    'port' => 80,
+    'debug' => false,
+    'output_format' => 1,
+    'output_compile' => true
+  );
+  
+  # init API (with param settings)
+  $api = new Smart\Api($env, $usr, $pwd, $settings);
+  
+  
+~~~
+
+#### handle
+Escolha do método/protocolo de conexão com o servidor Restful.
+
+* String: "curl" (padrão), "socket" e "stream"
+
+#### timeout
+Tempo máximo da resposta do servidor em segundos.
+
+* Integer: 10 (padrão)
+
+#### use_ssl
+Habilitar esta opção se a conexão exigir SSL.
+
+* Bool: false (padrão) 
+
+#### port
+Número da porta de conexão com servidor Restful.
+
+* Integer: 80 (padrão) 
+
+#### debug
+Para desenvolvedores, se ativa exibe os erros execução e comunicação com o servidor.
+
+* Bool: false (padrão) 
+
+#### output_format
+Opção de configuração do formato de resposta do servidor ('JSON' = 1, 'XML' = 2).
+
+* Integer: 1 (padrão) 
+
+#### output_compile
+Se desativada, mostra a resposta literal do servidor em XML ou JSON.
+
+* Bool: true (padrão) 
+ 
+### Atualização regular
+
+@Release 1.1 
+
+Nota da versão:
+
+* Adição de feature: configuração para resposta em XML
+
+Observação: os parâmetros dos métodos de envio (POST) serão adicionados futuramente.
 
 ### Documentação em arquivo
 
