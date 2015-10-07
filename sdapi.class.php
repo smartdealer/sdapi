@@ -20,13 +20,17 @@ namespace Smart;
 
 class Api {
 
-    private $sdl, $usr, $pwd, $error = array();
+    private $sdl, $usr, $pwd, $error, $header_options = array();
     var $settings = array(
         'handle' => 'curl',
         'timeout' => 10,
         'use_ssl' => false,
         'port' => 80,
-        'debug' => false
+        'debug' => false,
+        'output_format' => 1
+    );
+    var $ws_header_options = array(
+        'output_format' => 'integer'
     );
     var $methods = array(
         '/config/affiliates/' => array(
@@ -75,7 +79,8 @@ class Api {
     public function __construct($sdl, $usr, $pwd, Array $opt = array()) {
 
         $default = array(
-            'options' => array('default' => $this->protocol() . $sdl . self::WS_PATH
+            'options' => array(
+                'default' => $this->protocol() . $sdl . self::WS_PATH
             )
         );
 
@@ -121,6 +126,7 @@ class Api {
                     // curl request 
                     $cr = curl_init($this->sdl . $rest);
 
+                    curl_setopt($cr, CURLOPT_HTTPHEADER, $this->header_options);
                     curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
                     curl_setopt($cr, CURLOPT_TIMEOUT, $time);
                     curl_setopt($cr, CURLOPT_USERPWD, $this->usr . ":" . $this->pwd);
@@ -194,6 +200,7 @@ class Api {
                     // curl request 
                     $cr = curl_init($this->sdl . $id);
 
+                    curl_setopt($cr, CURLOPT_HTTPHEADER, $this->header_options);
                     curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
                     curl_setopt($cr, CURLOPT_TIMEOUT, $time);
                     curl_setopt($cr, CURLOPT_USERPWD, $this->usr . ":" . $this->pwd);
@@ -218,7 +225,20 @@ class Api {
     }
 
     private function settings($opt) {
+
+        // Api settings
         $this->settings = array_merge($this->settings, array_intersect_key($opt, $this->settings));
+
+        // header (for WS reading)
+        $header = array_intersect_key($this->settings, $this->ws_header_options);
+
+        // compile 
+        foreach ($header AS $a => $b) {
+            $this->header_options[] = ((isset($this->ws_header_options[$a])) && gettype($b) == $this->ws_header_options[$a]) ? ucfirst(str_replace('_', '-', $a)) . ': ' . $b : null;
+        }
+
+        // remove invalid
+        $this->header_options = array_filter($this->header_options);
     }
 
     public function methods() {
@@ -246,6 +266,7 @@ class Api {
                     // curl request 
                     $cr = curl_init($this->sdl . $rest);
 
+                    curl_setopt($cr, CURLOPT_HTTPHEADER, $this->header_options);
                     curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
                     curl_setopt($cr, CURLOPT_TIMEOUT, $time);
                     curl_setopt($cr, CURLOPT_USERPWD, $this->usr . ":" . $this->pwd);
@@ -322,7 +343,11 @@ class Api {
     }
 
     private function output($a = array()) {
-        return ($a && ($b = json_decode($a)) && json_last_error() == JSON_ERROR_NONE) ? $b : array();
+        
+        // set output format
+        $a = ($this->settings['output_format'] == 1 && $a && ($b = json_decode($a)) && json_last_error() == JSON_ERROR_NONE) ? $b : (($this->settings['output_format'] == 2) ? current((array) simplexml_load_string($a)) : array());
+        
+        return (array) ($a);
     }
 
     private function validWs() {
