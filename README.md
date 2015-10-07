@@ -5,6 +5,12 @@ Para mais informações, acesse o nosso [site](http://smartdealership.com.br).
 
 Direitos reservados à Smart Dealer Soluções em Software Ltda.
 
+### Requísitos 
+
+* PHP 5.3 ou superior
+* Extensões do PHP "php_curl" e "php_openssl"
+* Apache 2.2+
+
 ### Autenticação
 
 ~~~.php
