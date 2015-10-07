@@ -147,7 +147,8 @@ Lista todas as ofertas do cliente
     'use_ssl' => false,
     'port' => 80,
     'debug' => false,
-    'output_format' => 1
+    'output_format' => 1,
+    'output_compile' => true
   );
   
   # init API (with param settings)
@@ -186,6 +187,11 @@ Opção de configuração do formato de resposta do servidor ('JSON' = 1, 'XML' 
 
 * Integer: 1 (padrão) 
 
+#### output_compile
+Se desativada, mostra a resposta literal do servidor em XML ou JSON.
+
+* Bool: true (padrão) 
+ 
 ### Atualização regular
 
 @Release 1.1 
