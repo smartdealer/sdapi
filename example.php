@@ -9,12 +9,13 @@ $usr = 'teste';
 $pwd = '56e893aebac5c5e549997b9a61ccf3f76bfe2580';
 
 # OR
-#$sdl = 'prima';
-#$usr = 'primafiat';
-#$pwd = '80f2be7cc42dc32000730a35079226da65e3142f';
+
+$sdl = 'prima';
+$usr = 'primafiat';
+$pwd = '80f2be7cc42dc32000730a35079226da65e3142f';
 
 // instace SD Api
-$api = new Smart\Api($sdl, $usr, $pwd, array('debug' => false, 'output_format' => 2));
+$api = new Smart\Api($sdl, $usr, $pwd, array('debug' => false, 'output_format' => 1));
 
 // call Restful route
 $response = $api->get('/connect/packs/');
