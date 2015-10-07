@@ -5,7 +5,7 @@
  *
  * @package   Smart Dealership
  * @author    Patrick Otto <patrick@smartdealership.com.br>
- * @version   1.0
+ * @version   1.1
  * @access    public
  * @copyright Smart Dealer(c), 2015
  * @see       http://www.smartdealer.com.br
@@ -27,7 +27,8 @@ class Api {
         'use_ssl' => false,
         'port' => 80,
         'debug' => false,
-        'output_format' => 1
+        'output_format' => 1,
+        'output_compile' => true
     );
     var $ws_header_options = array(
         'output_format' => 'integer'
@@ -343,11 +344,13 @@ class Api {
     }
 
     private function output($a = array()) {
-        
-        // set output format
-        $a = ($this->settings['output_format'] == 1 && $a && ($b = json_decode($a)) && json_last_error() == JSON_ERROR_NONE) ? $b : (($this->settings['output_format'] == 2) ? current((array) simplexml_load_string($a)) : array());
-        
-        return (array) ($a);
+
+        // compile output format to (array)
+        if ($this->settings['output_compile'])
+            $a = ($this->settings['output_format'] == 1 && $a && ($b = json_decode($a)) && json_last_error() == JSON_ERROR_NONE) ? $b : (($this->settings['output_format'] == 2) ? current((array) simplexml_load_string($a)) : array());
+
+        // return
+        return $a;
     }
 
     private function validWs() {
