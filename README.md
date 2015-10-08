@@ -5,7 +5,7 @@ Para mais informações, acesse o nosso [site](http://smartdealership.com.br).
 
 Direitos reservados à Smart Dealer Soluções em Software Ltda.
 
-Caso necessite de acesso a integração antiga, veja [sdpack](https://github.com/smartdealer/sdpack).
+Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://github.com/smartdealer/sdpack).
 
 ### Requísitos 
 
