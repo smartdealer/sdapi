@@ -31,6 +31,16 @@ Direitos reservados à Smart Dealer Soluções em Software Ltda.
   
 ~~~~
 
+### Acesso direto (url)
+
+    https://{usuario}:{chave}@{cliente}.smartdealer.com.br/webservice/rest/connect/offers/?format={formato}&template={template}
+
+* {usuario}  = usuário do ws
+* {chave}    = chave do ws
+* {cliente}  = nome da instância
+* {format}   = formato do saída em JSON ou XML (vide parâmetros de configuração)
+* {template} = estrutura de campos da saída 
+
 ### Exemplo de uso
 
 ~~~.php
@@ -106,16 +116,6 @@ Direitos reservados à Smart Dealer Soluções em Software Ltda.
 
 
 ~~~
-
-### Acesso direto (url)
-
-    https://{usuario}:{chave}@{cliente}.smartdealer.com.br/webservice/rest/connect/offers/?format={formato}&template={template}
-
-* {usuario}  = usuário do ws
-* {chave}    = chave do ws
-* {cliente}  = nome da instância
-* {format}   = formato do saída em JSON ou XML (vide parâmetros de configuração)
-* {template} = estrutura de campos da saída 
 
 ### Métodos do webservice
 
