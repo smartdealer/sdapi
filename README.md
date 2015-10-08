@@ -5,6 +5,8 @@ Para mais informações, acesse o nosso [site](http://smartdealership.com.br).
 
 Direitos reservados à Smart Dealer Soluções em Software Ltda.
 
+Caso necessite de acesso a integração antiga, veja [sdpack](https://github.com/smartdealer/sdpack).
+
 ### Requísitos 
 
 * PHP 5.3 ou superior
