@@ -1,7 +1,7 @@
 <?php
 
 // incluse API class
-include 'sdapi.class.php';
+include 'source/sdapi.class.php';
 
 // auth settings
 $sdl = 'http://localhost/sdsweb/webservice/rest';
