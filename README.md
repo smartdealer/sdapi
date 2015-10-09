@@ -40,7 +40,7 @@ Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://git
 * {usuario}  = usuário do ws
 * {chave}    = chave do ws
 * {cliente}  = nome da instância
-* {format}   = formato do saída em JSON ou XML (vide parâmetros de configuração)
+* {formato}   = formato do saída em JSON ou XML (vide parâmetros de configuração)
 * {template} = estrutura de campos da saída 
 
 ### Exemplo de uso
