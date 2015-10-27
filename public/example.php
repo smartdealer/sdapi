@@ -1,7 +1,7 @@
 <?php
 
 // incluse API class
-include 'source/sdapi.class.php';
+include '../src/smart/api.php';
 
 // auth settings
 $sdl = 'http://localhost/sdsweb/webservice/rest';
