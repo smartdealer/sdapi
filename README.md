@@ -13,6 +13,10 @@ Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://git
 * Extensões do PHP "php_curl" e "php_openssl"
 * Apache 2.2+
 
+### Use via composer
+
+    composer require smartdealer/sdapi
+
 ### Autenticação
 
 ~~~.php
