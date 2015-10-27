@@ -194,7 +194,7 @@ Número da porta de conexão com servidor Restful.
 * Integer: 80 (padrão) 
 
 #### debug
-Para desenvolvedores, se ativa exibe os erros execução e comunicação com o servidor.
+Para desenvolvedores: se ativa, exibe erros de execução e comunicação com o servidor.
 
 * Bool: false (padrão) 
 
