@@ -1,0 +1,17 @@
+{
+    "name": "smartdealer/sdapi",
+    "description": "Smart Dealer Client API",
+    "type": "php-library",
+    "require": {
+        "lib-curl": "^7.36",
+        "lib-openssl": "1.0.1.7"
+    },
+    "license": "GPL2.0",
+    "authors": [
+        {
+            "name": "Patrick Otto",
+            "email": "patrick@smartdealership.com.br"
+        }
+    ],
+    "minimum-stability": "dev"
+}
