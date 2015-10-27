@@ -5,6 +5,8 @@ Para mais informações, acesse o nosso [site](http://smartdealership.com.br).
 
 Direitos reservados à Smart Dealer Soluções em Software Ltda.
 
+Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://github.com/smartdealer/sdpack).
+
 ### Requísitos 
 
 * PHP 5.3 ou superior
@@ -30,6 +32,16 @@ Direitos reservados à Smart Dealer Soluções em Software Ltda.
   $api = new Smart\Api($env, $usr, $pwd, array());
   
 ~~~~
+
+### Acesso direto (url)
+
+    https://{usuario}:{chave}@{cliente}.smartdealer.com.br/webservice/rest/connect/offers/?format={formato}&template={template}
+
+* {usuario}  = usuário do ws
+* {chave}    = chave do ws
+* {cliente}  = nome da instância
+* {formato}   = formato do saída em JSON ou XML (vide parâmetros de configuração)
+* {template} = estrutura de campos da saída 
 
 ### Exemplo de uso
 
