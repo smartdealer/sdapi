@@ -13,6 +13,10 @@ Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://git
 * Extensões do PHP "php_curl" e "php_openssl"
 * Apache 2.2+
 
+### Use via composer
+
+    composer require smartdealer/sdapi
+
 ### Autenticação
 
 ~~~.php
@@ -190,7 +194,7 @@ Número da porta de conexão com servidor Restful.
 * Integer: 80 (padrão) 
 
 #### debug
-Para desenvolvedores, se ativa exibe os erros execução e comunicação com o servidor.
+Para desenvolvedores: se ativa, exibe erros de execução e comunicação com o servidor.
 
 * Bool: false (padrão) 
 
