@@ -20,8 +20,7 @@ namespace Smart;
 
 class Api {
 
-    private $sdl, $usr, $pwd, $error, $header_options = array();
-    
+    private $debug_str, $sdl, $usr, $pwd, $error, $header_options = array();
     var $settings = array(
         'handle' => 'curl',
         'timeout' => 10,
@@ -31,11 +30,9 @@ class Api {
         'output_format' => 1,
         'output_compile' => true
     );
-    
     var $ws_header_options = array(
         'output_format' => 'integer'
     );
-    
     var $methods = array(
         '/config/affiliates/' => array(
             'method' => 'get',
@@ -348,12 +345,20 @@ class Api {
 
     private function output($a = array()) {
 
+        if ($a && is_string($a)) {
+            $this->debug_str = $a;
+        }
+
+        if ($this->debug_str && stristr($this->debug_str, 'unauthorized')) {
+            $this->logError('Your login or password is invalid. Not authenticated!');
+        }
+
         // compile output format to (array)
         if ($this->settings['output_compile'])
             $a = ($this->settings['output_format'] == 1 && $a && ($b = json_decode($a)) && json_last_error() == JSON_ERROR_NONE) ? $b : (($this->settings['output_format'] == 2) ? current((array) simplexml_load_string($a)) : array());
 
         // return
-        return $a;
+        return ($a && ($b = json_decode($a)) && json_last_error() == JSON_ERROR_NONE) ? $b : array();
     }
 
     private function validWs() {
