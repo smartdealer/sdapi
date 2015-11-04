@@ -20,6 +20,7 @@ Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://git
 ### Autenticação
 
 ~~~.php
+
   # include API class
   include_once 'src/smart/api.php';
   
