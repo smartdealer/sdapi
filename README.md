@@ -21,7 +21,7 @@ Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://git
 
 ~~~.php
   # include API class
-  include_once 'sdapi.class.php';
+  include_once 'src/smart/api.php';
   
   # client name OR direct instance URL (prima or prima.smartdealer.com.br)
   $env = 'prima';
