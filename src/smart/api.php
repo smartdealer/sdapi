@@ -28,10 +28,12 @@ class Api {
         'port' => 80,
         'debug' => false,
         'output_format' => 1,
-        'output_compile' => true
+        'output_compile' => true,
+        'gzip' => false
     );
     var $ws_header_options = array(
-        'output_format' => 'integer'
+        'output_format' => 'integer',
+        'gzip' => 'integer'
     );
     var $methods = array(
         '/config/affiliates/' => array(
@@ -140,6 +142,13 @@ class Api {
                     // exec
                     $a = curl_exec($cr);
 
+                    // collect error
+                    if (curl_errno($cr)) {
+                        $this->logError(curl_error($cr));
+                    } elseif ($a && $this->settings['gzip'] && function_exists('gzdecode')) {
+                        $a = gzdecode($a);
+                    }
+
                     // close
                     curl_close($cr);
 
@@ -213,6 +222,13 @@ class Api {
                     // exec
                     $a = curl_exec($cr);
 
+                    // collect error
+                    if (curl_errno($cr)) {
+                        $this->logError(curl_error($cr));
+                    } elseif ($a && $this->settings['gzip'] && function_exists('gzdecode')) {
+                        $a = gzdecode($a);
+                    }
+
                     // close
                     curl_close($cr);
 
@@ -277,6 +293,13 @@ class Api {
 
                     // exec
                     $a = curl_exec($cr);
+
+                    // collect error
+                    if (curl_errno($cr)) {
+                        $this->logError(curl_error($cr));
+                    } elseif ($a && $this->settings['gzip'] && function_exists('gzdecode')) {
+                        $a = gzdecode($a);
+                    }
 
                     // close
                     curl_close($cr);
@@ -354,11 +377,12 @@ class Api {
         }
 
         // compile output format to (array)
-        if ($this->settings['output_compile'])
+        if ($this->settings['output_compile']) {
             $a = ($this->settings['output_format'] == 1 && $a && ($b = json_decode($a)) && json_last_error() == JSON_ERROR_NONE) ? $b : (($this->settings['output_format'] == 2) ? current((array) simplexml_load_string($a)) : array());
+        }
 
         // return
-        return ($a && ($b = json_decode($a)) && json_last_error() == JSON_ERROR_NONE) ? $b : array();
+        return $a;
     }
 
     private function validWs() {
