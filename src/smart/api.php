@@ -1,242 +1,396 @@
 <?php
 
-class Modelcatalogsmartws extends Model {
+/**
+ * Smart Dealer RESTful Client API
+ *
+ * @package   Smart Dealership
+ * @author    Patrick Otto <patrick@smartdealership.com.br>
+ * @version   1.1
+ * @access    public
+ * @copyright Smart Dealer(c), 2015
+ * @see       http://www.smartdealer.com.br
+ *
+ * @param  string $sdl the client instance name ou URL of werbservice ex: dealership or http://domain.com/rest/
+ * @param  string $usr REST username (for WWW-authentication)
+ * @param  string $pwd REST password
+ * @param  array $opt the API client options (not required)
+ */
 
-    private $api, $debug;
+namespace Smart;
 
-    public function connect() {
+class Api {
 
-        // load de SD Api
-        $this->load->library('api/sdapi.class');
+    private $debug_str, $sdl, $usr, $pwd, $error, $header_options = array();
+    var $settings = array(
+        'handle' => 'curl',
+        'timeout' => 10,
+        'use_ssl' => false,
+        'port' => 80,
+        'debug' => false,
+        'output_format' => 1,
+        'output_compile' => true,
+        'gzip' => false
+    );
+    var $ws_header_options = array(
+        'output_format' => 'integer',
+        'gzip' => 'boolean'
+    );
+    var $methods = array(
+        '/config/affiliates/' => array(
+            'method' => 'get',
+            'desc' => 'return branches listing (affiliates)'
+        ),
+        '/parts/' => array(
+            'method' => 'get',
+            'desc' => 'returns a parts list'
+        ),
+        '/parts/provider/' => array(
+            'method' => 'get',
+            'desc' => 'returns to manufacturer list (providers)'
+        ),
+        '/parts/order/' => array(
+            'method' => 'post',
+            'desc' => 'create or update parts orders',
+        ),
+        '/parts/notify/' => array(
+            'method' => 'post',
+            'desc' => 'create or update pending the parts inventory (alerts)',
+        ),
+        '/parts/order/:id' => array(
+            'method' => 'delete',
+            'desc' => 'delete part orders',
+        ),
+        '/connect/packs/' => array(
+            'method' => 'get',
+            'desc' => 'list packs of stock integration (connect)',
+        ),
+        '/connect/pack/:id' => array(
+            'method' => 'get',
+            'desc' => 'list all offers of pack',
+        ),
+        '/connect/offers/' => array(
+            'method' => 'get',
+            'desc' => 'list all offers related',
+        )
+    );
 
-        // set WS settings (change config to view in future)
-        $url = (DEV_MODE && false) ? WS_DEVELOPMENT : 'grupotoniello';
-        $usr = 'sd_toniello';
-        $pwd = 'Ah783oshFsk386740Jhsdjg3973hs';
+    const WS_PATH = '.smartdealer.com.br/webservice/rest/';
+    const WS_DF_TIMEOUT = 10;
+    const WS_DF_PORT = 80;
+    const WS_SIGNATURE = '7cac394e6e2864b8e2f98e7fe815ab6b';
 
-        // instance Api
-        $this->api = new Smart\Api($url, $usr, $pwd, array('gzip' => true));
+    public function __construct($sdl, $usr, $pwd, Array $opt = array()) {
 
-        // debug mode
-        $this->debug = true;
+        $default = array(
+            'options' => array(
+                'default' => $this->protocol() . $sdl . self::WS_PATH
+            )
+        );
+
+        $this->sdl = trim(filter_var($sdl, FILTER_VALIDATE_URL, $default), ' /');
+        $this->usr = filter_var($usr, FILTER_SANITIZE_STRING | FILTER_SANITIZE_SPECIAL_CHARS);
+        $this->pwd = filter_var($pwd, FILTER_SANITIZE_STRING);
+
+        $this->settings($opt);
     }
 
-    public function registerOrder($data) {
+    public function get($rest, $arg = array()) {
 
-        // connect from WS
-        $this->connect();
+        // detect pattern
+        $pat = '/^' . preg_replace(array('/\//', '/\d+$/'), array('\/', ':id'), $rest) . '$/';
 
-        // set fields
-        $ret = $this->api->post('/parts/order/', $data);
+        // valid route
+        if (!preg_grep($pat, array_keys($this->methods)))
+            $this->logError('The ' . $rest . ' method is invalid. Get $api->methods() to list available.');
 
-        // debug
-        $this->showError($ret);
-
-        // return
-        return (bool) !empty($ret->status) and stristr($ret->status, 'success');
+        return ($this->getError()) ? array() : $this->call($rest, $arg);
     }
 
-    public function deleteOrder($id) {
+    public function post($rest, $arg = array()) {
 
-        // connect from WS
-        $this->connect();
+        $a = '';
 
-        // set fields
-        $ret = $this->api->delete('/parts/order/' . $id);
+        // check server
+        if (!$this->validWs()) {
 
-        // debug
-        $this->showError($ret);
+            $this->logError('The URL of Rest Webservice is not valid or server not permitted this request!');
 
-        // return
-        return (bool) !empty($ret->status) and stristr($ret->status, 'success');
-    }
-
-    public function getProviders() {
-
-        // connect from WS
-        $this->connect();
-
-        // set fields
-        $ret = $this->api->get('/parts/provider/');
-
-        // debug
-        $this->showError($ret);
-
-        // return
-        return $ret;
-    }
-
-    public function getParts() {
-
-        // connect from WS
-        $this->connect();
-
-        // set fields
-        $ret = $this->api->get('/parts/');
-
-        // debug
-        $this->showError($ret);
-
-        // return
-        return $ret;
-    }
-
-    public function getLocations() {
-
-        // connect from WS
-        $this->connect();
-
-        // set fields
-        $ret = $this->api->get('/config/affiliates/');
-
-        // debug
-        $this->showError($ret);
-
-        // return
-        return $ret;
-    }
-
-    public function getPending() {
-
-        // exec
-        $data = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_pending` p WHERE p.status = 1");
-
-        // return
-        return (isset($data->rows)) ? $data->rows : array();
-    }
-
-    public function changePending($product_id, $data, $sync = false) {
-
-        // get product info
-        $pro_info = $this->db->query("SELECT p.sd_product_id, p.height, p.length, p.width, p.weight FROM `" . DB_PREFIX . "product` p WHERE p.product_id = '{$product_id}'");
-        $uKey = implode('_', array_slice(explode('_', $pro_info->row['sd_product_id']), 0, 2));
-
-        // get manufacturer info		
-        $pen_info = $this->db->query("SELECT p.sd_product_id, p.product_id, p.customer_id, SUM(p.quantity) AS `quantity`, p.location, p.pending_id, m.code AS `manufacturer_id` FROM `" . DB_PREFIX . "order_pending` p LEFT JOIN `" . DB_PREFIX . "manufacturer` m ON (p.manufacturer_id = m.manufacturer_id) WHERE p.sd_product_id = '{$uKey}' AND p.status = 1");
-        
-        $_heigth = (float) ($sync ? $pro_info->row['height'] : $data['height']);
-        $_length = (float) ($sync ? $pro_info->row['length'] : $data['length']);
-        $_width = (float) ($sync ? $pro_info->row['width'] : $data['width']);
-        $_weight = (float) ($sync ? $pro_info->row['weight'] : $data['weight']);
-
-        if (!empty($pen_info->row['customer_id'])) {
-
-            // prepare main key
-            $uKey = trim($pen_info->row['sd_product_id']);
-
-            $stock_info = $this->db->query("SELECT sum(p.quantity) AS total FROM `" . DB_PREFIX . "product` p WHERE p.sd_product_id like '" . $uKey . "%' ");
-            $quantity = $stock_info->row['total'];
-
-            foreach ($pen_info->rows as $pen_data) {
-
-                // get customer info		
-                $cus_info = $this->db->query("SELECT customer_id, firstname, email, sha1(password) AS `password` FROM `" . DB_PREFIX . "customer` p WHERE p.customer_id = '{$pen_data['customer_id']}' ");
-
-                if (!empty($cus_info->row['customer_id']) && $uKey && strstr($uKey, '_')) {
-
-                    // client info
-                    $customer_name = $cus_info->row['firstname'];
-                    $email = $cus_info->row['email'];
-
-                    $cub_valid = !empty($_heigth) && !empty($_length) && !empty($_width) && !empty($_weight);
-                    $qtd_valid = $quantity >= ((int) $pen_data['quantity']);
-     
-                    // check pendencies (send user notification)
-                    if ($cub_valid && $qtd_valid) {
-
-                        // get language data
-                        $this->load->language('mail/order');
-
-                        // message settings
-                        $subject = $this->config->get('config_name') . ': ' . $this->language->get('text_notify_subject');
-                        $message = $this->language->get('text_notify_message');
-
-                        $desc = current($data['product_description']);
-
-                        if (isset($desc['name'])) {
-
-                            // change status on Smart
-                            $params = array(
-                                'codigo_fabricante' => $pen_info->row['manufacturer_id'],
-                                'codigo_peca' => $pen_info->row['sd_product_id'],
-                                'codigo_cliente' => $pen_info->row['customer_id'],
-                                'id_produto' => $pen_info->row['product_id'],
-                                'codigo_pendencia' => $pen_info->row['pending_id'],
-                                'filial' => $pen_info->row['location'],
-                                'quantidade' => $pen_info->row['quantity'],
-                                'status' => 2
-                            );
-
-                            $token = base64_encode($cus_info->row['email'] . ':' . $cus_info->row['password']);
-                            
-                            // connect from WS
-                            $this->connect();
-                            
-                            // IMPORTANTE: NOTIFY CUSTOMER, AVALIABLE PRODUCTS
-                            if ($this->api->post('/parts/notify/', $params)) {
-
-                                // fill product description
-                                $product = '<strong>Fabricante: </strong/>' . $data['manufacturer'] . '<br />';
-                                $product.= '<strong>Nome da Peça: </strong> ' . $desc['name'] . '<br />';
-                                $product.= '<strong>Modelo: </strong/>' . $data['model'] . '<br />';
-                                $product.= '<strong>Qtd. Solicitada: </strong/>' . $pen_data['quantity'] . '<br />';
-
-                                // replace data (pattern)
-                                $pattern['{#store-name#}'] = $this->config->get('config_name');
-                                $pattern['{#customer-name#}'] = $customer_name;
-                                $pattern['{#product#}'] = $product;
-                                $pattern['{#link#}'] = $this->url->link('account/login', '&oc_access_token=' . $token . '&product_id=' . $params['id_produto'] . '&product_qtd=' . $pen_data['quantity'], 'FORCESTORE');
-                                $pattern['{#config-mail#}'] = $this->config->get('config_email');
-
-                                // prepare message
-                                $message = str_replace(array_keys($pattern), array_values($pattern), $message);
-
-                                // smtp settings
-                                $mail = new Mail();
-                                $mail->charset = 'utf8';
-                                $mail->protocol = $this->config->get('config_mail_protocol');
-                                $mail->parameter = $this->config->get('config_mail_parameter');
-                                $mail->hostname = $this->config->get('config_smtp_host');
-                                $mail->username = $this->config->get('config_smtp_username');
-                                $mail->password = $this->config->get('config_smtp_password');
-                                $mail->port = $this->config->get('config_smtp_port');
-
-                                // set user to send
-                                $mail->setFrom($this->config->get('config_email'));
-                                $mail->setSender($this->config->get('config_name'));
-                                $mail->setSubject(html_entity_decode($subject, ENT_QUOTES, 'UTF-8'));
-                                $mail->setHtml(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-
-                                if ($email && preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $email)) {
-                                    $mail->setTo($email);
-                                    $mail->send();
-                                }
-
-                                // change pending status	
-                                $this->db->query("UPDATE `" . DB_PREFIX . "order_pending` p SET status = 2 WHERE p.sd_product_id = '{$uKey}' ");
-                            }
-                        }
-                    }
-                }
-            }
+            return $this->output();
         }
 
-        // change auto change dim/size (for simular products)	
-        $this->db->query("UPDATE `" . DB_PREFIX . "product` SET height = '" . $_heigth . "', length = '" . $_length . "', width = '" . $_width . "', weight = '" . $_weight . "' WHERE sd_product_id like \"" . $uKey . "%\" ");
+        $time = (!empty($this->settings['timeout'])) ? (int) $this->settings['timeout'] : self::WS_DF_TIMEOUT;
+        $port = (!empty($this->settings['port'])) ? (int) $this->settings['port'] : self::WS_DF_PORT;
+        $auth = base64_encode($this->usr . ":" . $this->pwd);
+
+        if (!empty($this->settings['handle'])) {
+            switch ($this->settings['handle']) {
+                case 'curl' :
+
+                    // curl request 
+                    $cr = curl_init($this->sdl . $rest);
+
+                    curl_setopt($cr, CURLOPT_HTTPHEADER, $this->header_options);
+                    curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                    curl_setopt($cr, CURLOPT_TIMEOUT, $time);
+                    curl_setopt($cr, CURLOPT_USERPWD, $this->usr . ":" . $this->pwd);
+                    curl_setopt($cr, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+                    curl_setopt($cr, CURLOPT_SSL_VERIFYPEER, !empty($this->settings['use_sll']));
+                    curl_setopt($cr, CURLOPT_POST, true);
+                    curl_setopt($cr, CURLOPT_POSTFIELDS, $arg);
+
+                    // exec
+                    $a = curl_exec($cr);
+
+                    // validate
+                    $this->validCurl($cr, $a);
+
+                    // close
+                    curl_close($cr);
+
+                    break;
+                case 'socket' : 
+                
+                    // build query
+                    $arg = http_build_query($arg);
+
+                    $header = "POST / HTTP/1.0\r\n\r\n";
+                    $header.= "Accept: text/html\r\n";
+                    $header.= "Authorization: Basic $auth\r\n\r\n";
+                    $header.= "Content-Type: application/x-www-form-urlencoded\r\n\r\n";
+                    $header.= "Content-Length: " . strlen($arg) . "\r\n\r\n";
+                    $header.= $arg . "\r\n\r\n";
+
+                    $host = preg_replace('/^\w+\:\/\//', '', $this->sdl . $rest);
+                    $fp = fsockopen($host, $port, $errno, $errstr, $time);
+
+                    $a = '';
+
+                    if (!$fp)
+                        $this->logError($errstr);
+                    else {
+                        fwrite($fp, $header);
+                        while (!feof($fp))
+                            echo fgets($fp, 128);
+                        fclose($fp);
+                    }
+
+                    break;
+            }
+        } else {
+            $this->logError('required \'handle\' param on settings');
+        }
+
+        return $this->output($a);
     }
 
-    private function showError($ret) {
+    public function delete($id) {
 
-        $a = $this->api->getError();
+        $a = '';
 
-        if ($this->debug) {
+        // check server
+        if (!$this->validWs()) {
 
-            // see error
-            echo "<pre>";
-            var_dump($a, $ret);
+            $this->logError('The URL of Rest Webservice is not valid or server not permitted this request!');
 
-            // kill
-            exit(0);
+            return $this->output();
+        }
+
+        $time = (!empty($this->settings['timeout'])) ? (int) $this->settings['timeout'] : self::WS_DF_TIMEOUT;
+        $port = (!empty($this->settings['port'])) ? (int) $this->settings['port'] : self::WS_DF_PORT;
+        $auth = base64_encode($this->usr . ":" . $this->pwd);
+
+        if (!empty($this->settings['handle'])) {
+            switch ($this->settings['handle']) {
+                case 'curl' :
+
+                    // curl request 
+                    $cr = curl_init($this->sdl . $id);
+
+                    curl_setopt($cr, CURLOPT_HTTPHEADER, $this->header_options);
+                    curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                    curl_setopt($cr, CURLOPT_TIMEOUT, $time);
+                    curl_setopt($cr, CURLOPT_USERPWD, $this->usr . ":" . $this->pwd);
+                    curl_setopt($cr, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+                    curl_setopt($cr, CURLOPT_SSL_VERIFYPEER, !empty($this->settings['use_sll']));
+                    curl_setopt($cr, CURLOPT_CUSTOMREQUEST, 'DELETE');
+
+                    // exec
+                    $a = curl_exec($cr);
+
+                    // validate
+                    $this->validCurl($cr, $a);
+
+                    // close
+                    curl_close($cr);
+
+                    break;
+            }
+        } else {
+            $this->logError('required \'handle\' param on settings');
+        }
+
+        return $this->output($a);
+    }
+
+    private function settings($opt) {
+
+        // Api settings
+        $this->settings = array_merge($this->settings, array_intersect_key($opt, $this->settings));
+
+        // header (for WS reading)
+        $header = array_intersect_key($this->settings, $this->ws_header_options);
+
+        // compile 
+        foreach ($header AS $a => $b) {
+            $this->header_options[] = ((isset($this->ws_header_options[$a])) && gettype($b) == $this->ws_header_options[$a]) ? ucfirst(str_replace('_', '-', $a)) . ': ' . $b : null;
+        }
+
+        // remove invalid
+        $this->header_options = array_filter($this->header_options);
+    }
+
+    public function methods() {
+        return array_filter($this->methods);
+    }
+
+    public function call($rest, $arg) {
+
+        // check server
+        if (!$this->validWs()) {
+
+            $this->logError('The URL of Rest Webservice is not valid or server not permitted this request!');
+
+            return $this->output();
+        }
+
+        $time = (!empty($this->settings['timeout'])) ? (int) $this->settings['timeout'] : self::WS_DF_TIMEOUT;
+        $port = (!empty($this->settings['port'])) ? (int) $this->settings['port'] : self::WS_DF_PORT;
+        $auth = base64_encode($this->usr . ":" . $this->pwd);
+
+        if (!empty($this->settings['handle'])) {
+            switch ($this->settings['handle']) {
+                case 'curl' :
+
+                    // curl request 
+                    $cr = curl_init($this->sdl . $rest);
+
+                    curl_setopt($cr, CURLOPT_HTTPHEADER, $this->header_options);
+                    curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                    curl_setopt($cr, CURLOPT_TIMEOUT, $time);
+                    curl_setopt($cr, CURLOPT_USERPWD, $this->usr . ":" . $this->pwd);
+                    curl_setopt($cr, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+                    curl_setopt($cr, CURLOPT_SSL_VERIFYPEER, !empty($this->settings['use_sll']));
+
+                    // exec
+                    $a = curl_exec($cr);
+
+                    // validate
+                    $this->validCurl($cr, $a);
+
+                    // close
+                    curl_close($cr);
+
+                    break;
+                case 'socket' :
+
+                    $header = "GET / HTTP/1.0\r\n\r\n";
+                    $header.= "Accept: text/html\r\n";
+                    $header.= "Authorization: Basic $auth\r\n\r\n";
+
+                    $host = preg_replace('/^\w+\:\/\//', '', $this->sdl . $rest);
+
+                    $fp = fsockopen($host, $port, $errno, $errstr, $time);
+
+                    if (!$fp)
+                        $this->logError($errstr);
+                    else {
+                        fputs($fp, $header);
+                        while (!feof($fp))
+                            echo fgets($fp, 128);
+                    }
+                    fclose($fp);
+
+                    break;
+                case 'stream' :
+
+                    // stream settings
+                    $opts = array(
+                        'http' => array(
+                            'method' => "GET",
+                            'header' => "Accept-language: en\r\nContent-type: application/json\r\nAuthorization: Basic $auth",
+                        )
+                    );
+
+                    // create stream
+                    $context = stream_context_create($opts);
+
+                    // get URL
+                    $a = file_get_contents($this->sdl . $rest, false, $context);
+
+                    break;
+                default:
+                    $this->logError('invalid \'handle\' (use curl, socket, stream)');
+            }
+        } else {
+            $this->logError('required \'handle\' param on settings');
+        }
+
+        return $this->output($a);
+    }
+
+    private function protocol() {
+        return 'http' . ((!empty($this->settings['use_sll'])) ? 's' : '') . '://';
+    }
+
+    private function logError($str) {
+        $this->error[] = (string) $str;
+    }
+
+    public function getError() {
+        return $this->error;
+    }
+
+    private function output($a = array()) {
+
+        if ($a && is_string($a)) {
+            $this->debug_str = $a;
+        }
+
+        if ($this->debug_str && stristr($this->debug_str, 'unauthorized')) {
+            $this->logError('Your login or password is invalid. Not authenticated!');
+        }
+
+        // compile output format to (array)
+        if ($this->settings['output_compile']) {
+            $a = ($this->settings['output_format'] == 1 && $a && ($b = json_decode($a)) && json_last_error() == JSON_ERROR_NONE) ? $b : (($this->settings['output_format'] == 2) ? current((array) simplexml_load_string($a)) : array());
+        }
+
+        // return
+        return $a;
+    }
+
+    private function validWs() {
+
+        // pingback
+        ob_start();
+        $a = @get_headers($this->sdl);
+        $b = ob_get_contents();
+        ob_end_clean();
+        
+        $sign = (is_array($a)) ? (array) explode(':', current((array) preg_grep('/Server-Signature/i', $a))) : array();
+
+        // send status
+        return key_exists(0, $sign) && !strstr($a[0], '404') && trim(end($sign)) === self::WS_SIGNATURE;
+    }
+
+    private function validCurl($cr, &$a) {
+        if (curl_errno($cr)) {
+            $this->logError(curl_error($cr));
+        } elseif ($a && $this->settings['gzip'] && function_exists('gzdecode') && !mb_check_encoding($a)) {
+            $a = gzdecode($a);
         }
     }
 
