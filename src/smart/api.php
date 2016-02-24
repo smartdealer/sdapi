@@ -96,6 +96,9 @@ class Api {
 
     public function get($rest, $arg = array()) {
 
+        // reset
+        $this->error = array();
+
         // detect pattern
         $pat = '/^' . preg_replace(array('/\//', '/\d+$/'), array('\/', ':id'), $rest) . '$/';
 
@@ -149,8 +152,8 @@ class Api {
                     curl_close($cr);
 
                     break;
-                case 'socket' : 
-                
+                case 'socket' :
+
                     // build query
                     $arg = http_build_query($arg);
 
@@ -379,7 +382,7 @@ class Api {
         $a = @get_headers($this->sdl);
         $b = ob_get_contents();
         ob_end_clean();
-        
+
         $sign = (is_array($a)) ? (array) explode(':', current((array) preg_grep('/Server-Signature/i', $a))) : array();
 
         // send status
@@ -389,7 +392,7 @@ class Api {
     private function validCurl($cr, &$a) {
         if (curl_errno($cr)) {
             $this->logError(curl_error($cr));
-        } elseif ($a && $this->settings['gzip'] && function_exists('gzdecode') && !mb_check_encoding($a)) {
+        } elseif ($a && $this->settings['gzip'] === true && function_exists('gzdecode') && mb_check_encoding($a)) {
             $a = gzdecode($a);
         }
     }
