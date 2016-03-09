@@ -24,7 +24,7 @@ class Api {
     var $settings = array(
         'handle' => 'curl',
         'timeout' => 10,
-        'use_ssl' => false,
+        'use_ssl' => true,
         'port' => 80,
         'debug' => false,
         'output_format' => 1,
@@ -241,7 +241,7 @@ class Api {
 
         // Api settings
         $this->settings = array_merge($this->settings, array_intersect_key($opt, $this->settings));
-
+        
         // header (for WS reading)
         $header = array_intersect_key($this->settings, $this->ws_header_options);
 
@@ -286,6 +286,7 @@ class Api {
                     curl_setopt($cr, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
                     curl_setopt($cr, CURLOPT_SSL_VERIFYPEER, !empty($this->settings['use_sll']));
+                    curl_setopt($cr, CURLOPT_FOLLOWLOCATION, true);
 
                     // exec
                     $a = curl_exec($cr);
@@ -345,7 +346,7 @@ class Api {
     }
 
     private function protocol() {
-        return 'http' . ((!empty($this->settings['use_sll'])) ? 's' : '') . '://';
+        return 'http' . ((!empty($this->settings['use_ssl'])) ? 's' : '') . '://';
     }
 
     private function logError($str) {
