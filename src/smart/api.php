@@ -241,7 +241,7 @@ class Api {
 
         // Api settings
         $this->settings = array_merge($this->settings, array_intersect_key($opt, $this->settings));
-        
+
         // header (for WS reading)
         $header = array_intersect_key($this->settings, $this->ws_header_options);
 
@@ -286,10 +286,9 @@ class Api {
                     curl_setopt($cr, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
                     curl_setopt($cr, CURLOPT_SSL_VERIFYPEER, !empty($this->settings['use_sll']));
-                    curl_setopt($cr, CURLOPT_FOLLOWLOCATION, true);
 
                     // exec
-                    $a = curl_exec($cr);
+                    $a = $this->curl_exec_follow($cr);
 
                     // validate
                     $this->validCurl($cr, $a);
@@ -396,6 +395,41 @@ class Api {
         } elseif ($a && $this->settings['gzip'] === true && function_exists('gzdecode') && mb_check_encoding($a)) {
             $a = gzdecode($a);
         }
+    }
+
+    protected function curl_exec_follow($ch, $maxredirect = 1) {
+
+        if (ini_get('open_basedir') == '' && ini_get('safe_mode' == 'Off')) {
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        } else {
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            $newurl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+
+            $rch = curl_copy_handle($ch);
+
+            curl_setopt($rch, CURLOPT_HEADER, true);
+            curl_setopt($rch, CURLOPT_NOBODY, true);
+            curl_setopt($rch, CURLOPT_RETURNTRANSFER, true);
+
+            do {
+                curl_setopt($rch, CURLOPT_URL, $newurl);
+                $header = curl_exec($rch);
+                if (curl_errno($rch)) {
+                    $code = 0;
+                } else {
+                    $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
+                    if ($code == 301 || $code == 302) {
+                        preg_match('/Location:(.*?)\n/', $header, $matches);
+                        $newurl = trim(array_pop($matches));
+                    } else {
+                        $code = 0;
+                    }
+                }
+            } while ($code && $maxredirect--);
+            curl_close($rch);
+            curl_setopt($ch, CURLOPT_URL, $newurl);
+        }
+        return curl_exec($ch);
     }
 
 }
