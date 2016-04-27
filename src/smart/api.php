@@ -44,6 +44,10 @@ class Api {
             'method' => 'get',
             'desc' => 'returns a parts list'
         ),
+        '/parts/tires/' => array(
+            'method' => 'get',
+            'desc' => 'returns a tires list'
+        ),
         '/parts/provider/' => array(
             'method' => 'get',
             'desc' => 'returns to manufacturer list (providers)'
