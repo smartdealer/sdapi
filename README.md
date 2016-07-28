@@ -84,6 +84,36 @@ Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://git
   
 ~~~~
 
+### Dicionário de dados
+
+Tradução dos campos retornados na consulta das ofertas selecionadas do estoque.
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------- | ------------- |
+| id            | integer       | **id** do veículo no estoque
+| tipo			| string		| código do tipo (N para novo e U para usado)
+| categoria	    | integer		| código da categoria (carro, moto ou caminhão)
+| filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
+| placa         | string        | placa do veículo (se houver)
+| chassi        | string        | chassi do veículo (se houver)
+| marca         | string        | descrição da marca 
+| modelo_id     | integer       | código do modelo
+| modelo        | string        | descrição do modelo
+| cor_id		| integer		| codigo da cor
+| cor			| string	 	| descroção da cor
+| km			| integer       | quilometragem do veículo
+| combustivel   | string        | descrição do combustível
+| ano_fabricacao| integer (4)   | ano de facricação do veículo
+| ano_modelo    | integer (4)   | ano do modelo do veículo
+| promocao		| string        | status do veículo em promoção (S ou N)
+| preco			| float			| preço do veículo
+| dias_estoque  | integer       | número dos dias em estoque
+| imagens       | array         | lista das URLs das imagens do veículo
+
+
+#### GET (leitura de dados)
+
+
 ### Tipos de métodos
 
 #### GET (leitura de dados)
