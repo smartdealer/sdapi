@@ -108,6 +108,7 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 | promocao		| string        | status do veículo em promoção (S ou N)
 | preco			| float			| preço do veículo
 | dias_estoque  | integer       | número dos dias em estoque
+| observacao    | string        | observações do vendedor/concessionária
 | imagens       | array         | lista das URLs das imagens do veículo
 
 
