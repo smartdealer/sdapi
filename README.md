@@ -97,7 +97,7 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 | placa         | string        | placa do veículo (se houver)
 | chassi        | string        | chassi do veículo (se houver)
 | marca         | string        | descrição da marca 
-| modelo_id     | integer       | código do modelo
+| modelo_id     | string        | código do modelo
 | modelo        | string        | descrição do modelo
 | cor_id		| integer		| codigo da cor
 | cor			| string	 	| descroção da cor
