@@ -40,6 +40,10 @@ class Api {
             'method' => 'get',
             'desc' => 'return branches listing (affiliates)'
         ),
+        '/config/categories/' => array(
+            'method' => 'get',
+            'desc' => 'return stock categories (car, truck, motorcycle)'
+        ),
         '/parts/' => array(
             'method' => 'get',
             'desc' => 'returns a parts list'
@@ -242,14 +246,14 @@ class Api {
         // Api settings
         $this->settings = array_merge($this->settings, array_intersect_key($opt, $this->settings));
 
-		// check dependecy (auto-disable)
-		if(!function_exists('gzdecode')){
-			$this->settings['gzip'] = false;
-		}
-		
+        // check dependecy (auto-disable)
+        if (!function_exists('gzdecode')) {
+            $this->settings['gzip'] = false;
+        }
+
         // header (for WS reading)
         $header = array_intersect_key($this->settings, $this->ws_header_options);
-		
+
         // compile 
         foreach ($header AS $a => $b) {
             $this->header_options[] = ((isset($this->ws_header_options[$a])) && gettype($b) == $this->ws_header_options[$a]) ? ucfirst(str_replace('_', '-', $a)) . ': ' . $b : null;
@@ -395,13 +399,12 @@ class Api {
     }
 
     private function validCurl($cr, &$a) {
-				
+
         if (curl_errno($cr)) {
             $this->logError(curl_error($cr));
-        } elseif ($a && $this->settings['gzip'] === true && function_exists('gzdecode') && stristr(mb_detect_encoding($a),'utf')) {
+        } elseif ($a && $this->settings['gzip'] === true && function_exists('gzdecode') && stristr(mb_detect_encoding($a), 'utf')) {
             $a = gzdecode($a);
         }
-		
     }
 
     protected function curl_exec_follow($ch, $maxredirect = 1) {
