@@ -160,6 +160,9 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 ##### GET : /config/affiliates/
 Lista as filiais do cliente
 
+##### GET : /config/categories/
+Lista as categorias de veículos do estoque (carro, moto, caminhão)
+
 ##### GET : /parts/
 Lista o estoque de peças 
 
