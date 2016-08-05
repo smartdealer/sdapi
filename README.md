@@ -100,7 +100,7 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 | modelo_id     | string        | código do modelo
 | modelo        | string        | descrição do modelo
 | cor_id		| string		| codigo da cor
-| cor			| string	 	| descroção da cor
+| cor			| string	 	| descrição da cor
 | km			| integer       | quilometragem do veículo
 | combustivel   | string        | descrição do combustível
 | ano_fabricacao| integer (4)   | ano de facricação do veículo
