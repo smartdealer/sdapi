@@ -64,6 +64,10 @@ class Api {
             'method' => 'delete',
             'desc' => 'delete part orders',
         ),
+        '/parts/tires/' => array(
+            'method' => 'get',
+            'desc' => 'get stock of tires',
+        ),
         '/connect/packs/' => array(
             'method' => 'get',
             'desc' => 'list packs of stock integration (connect)',
@@ -96,6 +100,11 @@ class Api {
         $this->pwd = filter_var($pwd, FILTER_SANITIZE_STRING);
 
         $this->settings($opt);
+
+        // check server
+        if (!$this->validWs()) {
+            $this->logError('The URL of Rest Webservice is not valid or server not permitted this request!');
+        }
     }
 
     public function get($rest, $arg = array()) {
