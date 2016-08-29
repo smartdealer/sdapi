@@ -48,9 +48,9 @@ Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://git
 * {formato}   = formato do saída em JSON ou XML (vide parâmetros de configuração)
 * {template} = estrutura de campos da saída 
 
-### Ambientes de uso
+### Uso em embiente de produção
 
-Para o ambiente de produção será necessário a solicitação de liberação do endereço de IP para autenticação do webservice Rest.
+Será necessário a solicitação de liberação do endereço de IP para autenticação no webservice Rest de produção.
 
 ### Exemplo de uso
 
