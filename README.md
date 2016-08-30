@@ -255,10 +255,8 @@ Se desativada, mostra a resposta literal do servidor em XML ou JSON.
 
 Nota da versão:
 
-Nenhuma
-
-Observação: os parâmetros dos métodos de envio (POST) serão adicionados futuramente.
+Nenhuma.
 
 ### Documentação em arquivo
 
-Em breve dispinível.
+Em breve disponível.
