@@ -255,10 +255,10 @@ Se desativada, mostra a resposta literal do servidor em XML ou JSON.
 
 Nota da versão:
 
-* Adição de feature: configuração para resposta em XML
+Nenhuma
 
 Observação: os parâmetros dos métodos de envio (POST) serão adicionados futuramente.
 
 ### Documentação em arquivo
 
-Faça o download da [documentação](http://smartdealership.com.br/docs/api/sdapi-manual.pdf) em PDF (incompleto).
+Em breve dispinível.
