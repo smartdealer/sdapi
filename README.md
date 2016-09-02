@@ -48,6 +48,12 @@ Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://git
 * {formato}   = formato do saída em JSON ou XML (vide parâmetros de configuração)
 * {template} = estrutura de campos da saída 
 
+### Uso em embiente de produção
+
+Será necessário a liberação do endereço de IP (servidor onde a API será executada) para autenticação no webservice Rest, ambiente de produção.
+
+A solicitação poderá ser feita atravéz deste link: http://bit.ly/2bVryEC
+
 ### Exemplo de uso
 
 ~~~.php
@@ -249,10 +255,8 @@ Se desativada, mostra a resposta literal do servidor em XML ou JSON.
 
 Nota da versão:
 
-* Adição de feature: configuração para resposta em XML
-
-Observação: os parâmetros dos métodos de envio (POST) serão adicionados futuramente.
+Nenhuma.
 
 ### Documentação em arquivo
 
-Faça o download da [documentação](http://smartdealership.com.br/docs/api/sdapi-manual.pdf) em PDF (incompleto).
+Em breve disponível.
