@@ -270,6 +270,9 @@ class Api {
 
         // remove invalid
         $this->header_options = array_filter($this->header_options);
+
+        // fix CURL change header error
+        $this->header_options[] = 'Expect: 100-continue';
     }
 
     public function methods() {
