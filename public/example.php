@@ -10,15 +10,15 @@ $pwd = '56e893aebac5c5e549997b9a61ccf3f76bfe2580';
 
 # OR
 
-$sdl = 'prima';
-$usr = 'primafiat';
-$pwd = '80f2be7cc42dc32000730a35079226da65e3142f';
+$sdl = 'grupotoniello';
+$usr = 'click';
+$pwd = '58c927d49befcccfdbdc03a09a903b073f3cf092';
 
 // instace SD Api
 $api = new Smart\Api($sdl, $usr, $pwd, array('debug' => false, 'output_format' => 1));
 
 // call Restful route
-$response = $api->get('/connect/packs/');
+$response = $api->get('/connect/offers/');
 
 // collect erros
 $sts = $api->getError();

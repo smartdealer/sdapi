@@ -280,7 +280,7 @@ class Api {
     }
 
     public function call($rest, $arg) {
-
+ 
         // check server
         if (!$this->validWs()) {
 
