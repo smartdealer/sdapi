@@ -1,6 +1,8 @@
 # Smart Dealer Client API
 API de comunicação (for PHP servers) com o software para revendas e concessionárias Smart Dealer
 
+[![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/) [![PHPPackages Rank](http://phppackages.org/p/smartdealer/sdapi/badge/rank.svg)](http://phppackages.org/p/smartdealer/sdapi) ![](https://reposs.herokuapp.com/?path=smartdealer/sdapi&style=flat)
+
 Para mais informações, acesse o nosso [site](http://smartdealership.com.br).
 
 Direitos reservados à Smart Dealer Soluções em Software Ltda.
