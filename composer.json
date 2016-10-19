@@ -4,7 +4,7 @@
     "type": "php-library",
     "require": {
         "lib-curl": "^7.36",
-        "lib-openssl": "1.0.1.7"
+        "lib-openssl": "^1.0.1.7"
     },
     "license": "GPL2.0",
     "authors": [
