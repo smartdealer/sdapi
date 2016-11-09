@@ -280,7 +280,7 @@ class Api {
     }
 
     public function call($rest, $arg) {
- 
+
         // check server
         if (!$this->validWs()) {
 
@@ -397,6 +397,17 @@ class Api {
     }
 
     private function validWs() {
+
+        $url_open = ini_get('allow_url_fopen');
+
+        // check dependencies
+        if (!stristr($url_open, 'On') && !stristr($url_open, '1')) {
+
+            $this->logError('Required allow_url_fopen enabled in your PHP settings (php.ini)');
+
+            // return
+            return false;
+        }
 
         // pingback
         ob_start();
