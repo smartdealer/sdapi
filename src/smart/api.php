@@ -310,7 +310,7 @@ class Api {
 
                     // exec
                     $a = $this->curl_exec_follow($cr);
-
+                    
                     // validate
                     $this->validCurl($cr, $a);
 
@@ -408,7 +408,7 @@ class Api {
             // return
             return false;
         }
-
+        
         // pingback
         ob_start();
         $a = @get_headers($this->sdl);
