@@ -167,7 +167,7 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 ### Métodos do webservice
 
 ##### GET : /config/affiliates/
-Lista as filiais/Lojas do cliente
+Lista as filiais/lojas do cliente
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------ | ------------- |
