@@ -148,6 +148,7 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
   $api->post('/route/method/', $data);
   
   # send data with ID param (if required)
+  
   $api->post('/route/method/:id', $data);
 
 
@@ -166,8 +167,22 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 ### Métodos do webservice
 
 ##### GET : /config/affiliates/
-Lista as filiais do cliente
+Lista as filiais/lojas do cliente
 
+| campo         | tipo         |  descrição  |
+| ------------- | ------------ | ------------- |
+| nome          | string       | nome do cliente (Ex: Exemplo Fiat) 
+| cep           | string       | endereço de cep
+| cnpj          | interger     | cnpj do cliente
+| razao_social  | string       | razão social (Ex: Exemplo Fiat Veículos Ltda.)
+| endereco      | string       | endereço da concessionária/revenda
+| bairro        | string       | nome do bairro
+| cidade        | string       | nome da cidade
+| telefone      | integer      | número do telefone (dd + número)
+| responsavel   | string       | nome do contato responsável
+| email         | string       | email do cliente
+| hashcode      | string       | hash token criação de senha
+ 
 ##### GET : /config/categories/
 Lista as categorias de veículos do estoque (carro, moto, caminhão)
 
@@ -213,7 +228,7 @@ Lista todas as ofertas do cliente
   # init API (with param settings)
   $api = new Smart\Api($env, $usr, $pwd, $settings);
   
-  
+ 
 ~~~
 
 #### handle
