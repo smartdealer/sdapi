@@ -231,6 +231,7 @@ Lista todas as ofertas do cliente
  
 ~~~
 
+
 #### handle
 Escolha do método/protocolo de conexão com o servidor Restful.
 
@@ -266,14 +267,17 @@ Se desativada, mostra a resposta literal do servidor em XML ou JSON.
 
 * Bool: true (padrão) 
  
+ 
+### Integração com portais
+
+Fluxo de interação com o webservice Smart via Api na integração com portais automotivos.
+
+![alt tag](http://smartdealership.com.br/img/api/fluxograma-integracao-via-api.png)
+
 ### Atualização regular
 
-@Release 1.1 
+@Release 1.2 
 
 Nota da versão:
 
 Nenhuma.
-
-### Documentação em arquivo
-
-Em breve disponível.
