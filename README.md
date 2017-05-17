@@ -244,8 +244,8 @@ Cria uma configuração de integração (connect)
 | senha         | string       | senha da conta do portal
 | segmento      | interger     | categoria principal, vide "/config/categories/"
 
-##### GET : /connect/channels/
-Lista os canais/portais disponíveis para integração
+##### GET : /connect/contracts/
+Lista as integrações configuradas (contratos de integração)
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------ | ------------- |
