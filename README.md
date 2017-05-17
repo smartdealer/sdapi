@@ -164,7 +164,25 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 
 ~~~
 
-### Métodos do webservice
+### Métodos do webservice (configuração)
+
+##### GET : /config/categories/
+Lista as categorias de veículos do estoque (carro, moto, caminhão)
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------ | ------------- |
+| id            | interger     | id da categoria*
+| descricao     | string       | nome da categoria (Ex: Carro)
+
+##### POST : /config/affiliate/
+Cadastra um novo cliente/CNPJ no sistema
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------ | ------------- |
+| nome          | string       | nome do cliente (Ex: Exemplo Fiat) 
+| cnpj          | interger     | cnpj do cliente (14 digitos)
+| razao_social  | string       | razão social (Ex: Exemplo Fiat Veículos Ltda.)
+| matriz        | boolean      | especifica se cadastro é matriz ou loja principal
 
 ##### GET : /config/affiliates/
 Lista as filiais/lojas do cliente
@@ -173,7 +191,7 @@ Lista as filiais/lojas do cliente
 | ------------- | ------------ | ------------- |
 | nome          | string       | nome do cliente (Ex: Exemplo Fiat) 
 | cep           | string       | endereço de cep
-| cnpj          | interger     | cnpj do cliente
+| cnpj          | interger     | cnpj do cliente (14 digitos)
 | razao_social  | string       | razão social (Ex: Exemplo Fiat Veículos Ltda.)
 | endereco      | string       | endereço da concessionária/revenda
 | bairro        | string       | nome do bairro
@@ -183,8 +201,7 @@ Lista as filiais/lojas do cliente
 | email         | string       | email do cliente
 | hashcode      | string       | hash token criação de senha
  
-##### GET : /config/categories/
-Lista as categorias de veículos do estoque (carro, moto, caminhão)
+### Métodos do webservice (estoque de peças)
 
 ##### GET : /parts/
 Lista o estoque de peças 
@@ -200,6 +217,41 @@ Registra ou atualiza a lista de notificações, pendências no estoque (e-commer
 
 ##### DELETE : /parts/order/:id 
 Remove a reserva de uma peça
+
+### Métodos do webservice (integrador)
+
+##### GET : /connect/channels/
+Lista os canais/portais disponíveis para integração
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------ | ------------- |
+| id            | interger     | código do canal
+| nome          | string       | nome do canal (Ex: Portal iCarros) 
+| identificador | string       | nome do drive identificador (Ex: icarros)
+| status        | interger     | 1 na fila, 2 em manutenção, 3 disponível
+
+$site_id = ($app->request->post('site_id') && is_numeric($app->request->post('site_id'))) ? $app->request->post('site_id') : null;
+    $status = (((int) $app->request->post('status')) === 1) ? 1 : 0;
+    $anuncios = (int) ($app->request->post('anuncios'));
+    $filial = (int) ($app->request->post('filial'));
+    $cnpj = preg_replace('/[^0-9]+/im', '', $app->request->post('cnpj'));
+    $login = $app->request->post('login');
+    $senha = $app->request->post('senha');
+    $segmento =
+
+##### POST : /connect/contract/ 
+Cria uma configuração de integração (connect)
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------ | ------------- |
+| site_id       | interger     | id do canal de integração (vide ~/channels/)
+| status        | interger     | 1 atualização automática ativa, 0 desativada
+| anuncios      | interger     | total de anúncios do plano (apenas para cálculo)
+| filial        | interger     | filial a ser lida/publicada (ofertas)
+| cnpj          | interger     | cnpj utilizado na conta do portal
+| login         | string       | login/email utilizado na conta do portal
+| senha         | string       | senha da conta do portal
+| segmento      | interger     | categoria principal, vide "/config/categories/"
 
 ##### GET : /connect/packs/ 
 Lista os pacotes de ofertas disponíveis (connect)
@@ -276,7 +328,7 @@ Fluxo de interação com o webservice Smart via Api na integração com portais 
 
 ### Atualização regular
 
-@Release 1.2 
+@Release 1.3 
 
 Nota da versão:
 
