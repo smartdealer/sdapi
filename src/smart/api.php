@@ -44,6 +44,10 @@ class Api {
             'method' => 'get',
             'desc' => 'return stock categories (car, truck, motorcycle)'
         ),
+        '/config/affiliate/' => array(
+            'method' => 'post',
+            'desc' => 'register new customer/affiliate'
+        ),
         '/parts/' => array(
             'method' => 'get',
             'desc' => 'returns a parts list'
@@ -67,6 +71,18 @@ class Api {
         '/parts/tires/' => array(
             'method' => 'get',
             'desc' => 'get stock of tires',
+        ),
+        '/connect/channels/' => array(
+            'method' => 'get',
+            'desc' => 'list channnels available for integration (connect)',
+        ),
+        '/connect/contracts/' => array(
+            'method' => 'get',
+            'desc' => 'list my integration settings by cliente and channel',
+        ),
+        '/connect/contract/' => array(
+            'method' => 'post',
+            'desc' => 'set/create new integration settings (contracts)',
         ),
         '/connect/packs/' => array(
             'method' => 'get',
@@ -310,7 +326,7 @@ class Api {
 
                     // exec
                     $a = $this->curl_exec_follow($cr);
-                    
+
                     // validate
                     $this->validCurl($cr, $a);
 
@@ -408,7 +424,7 @@ class Api {
             // return
             return false;
         }
-        
+
         // pingback
         ob_start();
         $a = @get_headers($this->sdl);
