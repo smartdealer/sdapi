@@ -152,9 +152,35 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
   # send data with ID param (if required)
   
   $api->post('/route/method/:id', $data);
+  
+~~~  
+  
+##### retorno padrão
 
+~~~.json
+{
+  "status": 500,
+  "errors": [
+    "O limite de 1 conta(s) foi atingido. Entre em contato conosco."
+  ],
+  "response": false
+}
 
 ~~~
+
+| campo         | tipo         |  descrição  |
+| -------------   | ------------ | ------------- |
+| status          | interger   | código de retorno
+| errors          | array      | listagem de erros (se houver, status 500)
+| response        | mixed      | resposta adicional do método
+
+##### Tabela de tradução
+
+| código        | descrição    |
+| ------------- | ------------ | 
+| 200           | sucesso      | 
+| 400           | em manutenção| 
+| 500           | error        | 
 
 #### DELETE (deleção de registros)
 
