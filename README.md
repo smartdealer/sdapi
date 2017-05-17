@@ -256,7 +256,7 @@ Lista os canais/portais disponíveis para integração
 | status        | interger     | 1 atualização automática ativa, 0 desativada
 | anuncios      | interger     | total de anúncios do plano (definido no cadastro)
 | tot_destaque  | interger     | total de anúncios em destaque (pós sincronização)
-| tot_destaque  | interger     | anúncios cadastrados pelo portal (pós sincronização)
+| tot_manual    | interger     | anúncios cadastrados pelo portal (pós sincronização)
 | login         | string       | login/email utilizado na conta do portal
 | senha         | string       | senha da conta do portal
 | segmento      | interger     | categoria principal, vide "/config/categories/"
