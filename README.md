@@ -230,15 +230,6 @@ Lista os canais/portais disponíveis para integração
 | identificador | string       | nome do drive identificador (Ex: icarros)
 | status        | interger     | 1 na fila, 2 em manutenção, 3 disponível
 
-$site_id = ($app->request->post('site_id') && is_numeric($app->request->post('site_id'))) ? $app->request->post('site_id') : null;
-    $status = (((int) $app->request->post('status')) === 1) ? 1 : 0;
-    $anuncios = (int) ($app->request->post('anuncios'));
-    $filial = (int) ($app->request->post('filial'));
-    $cnpj = preg_replace('/[^0-9]+/im', '', $app->request->post('cnpj'));
-    $login = $app->request->post('login');
-    $senha = $app->request->post('senha');
-    $segmento =
-
 ##### POST : /connect/contract/ 
 Cria uma configuração de integração (connect)
 
