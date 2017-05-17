@@ -155,7 +155,7 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
   
 ~~~  
   
-##### retorno padrão
+##### Retorno padrão
 
 ~~~.json
 {
