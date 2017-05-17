@@ -52,9 +52,11 @@ Caso necessite de acesso a integração antiga, veja o [SD Soap-XML](https://git
 
 ### Uso em embiente de produção
 
-Será necessário a liberação do endereço de IP (servidor onde a API será executada) para autenticação no webservice Rest, ambiente de produção.
+Será necessário a criação de um login, chave de acesso e a liberação do endereço de IP (servidor onde a API será executada) pela Smart para autenticação no webservice Rest, ambiente de produção.
 
 A solicitação poderá ser feita atravéz deste link: http://bit.ly/2bVryEC
+
+![alt tag](http://smartdealership.com.br/img/api/sd-cad-usuario-integracao.jpg)
 
 ### Exemplo de uso
 
