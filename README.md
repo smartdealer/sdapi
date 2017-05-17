@@ -244,6 +244,24 @@ Cria uma configuração de integração (connect)
 | senha         | string       | senha da conta do portal
 | segmento      | interger     | categoria principal, vide "/config/categories/"
 
+##### GET : /connect/channels/
+Lista os canais/portais disponíveis para integração
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------ | ------------- |
+| id            | interger     | código do contrato/integração
+| site_id       | interger     | id do canal de integração vide "connect/channels/"
+| data_criacao  | string       | data do cadastro da integração
+| identificador | string       | nome do canal integrado (Ex: webmotors)
+| status        | interger     | 1 atualização automática ativa, 0 desativada
+| anuncios      | interger     | total de anúncios do plano (definido no cadastro)
+| tot_destaque  | interger     | total de anúncios em destaque (pós sincronização)
+| tot_destaque  | interger     | anúncios cadastrados pelo portal (pós sincronização)
+| login         | string       | login/email utilizado na conta do portal
+| senha         | string       | senha da conta do portal
+| segmento      | interger     | categoria principal, vide "/config/categories/"
+| valido        | boolean      | status operacional da integração (true = integrado)
+
 ##### GET : /connect/packs/ 
 Lista os pacotes de ofertas disponíveis (connect)
 
