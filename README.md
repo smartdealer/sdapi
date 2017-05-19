@@ -351,7 +351,7 @@ Lista as ofertas de um determinado pacote (connect)
 | ano_fabricacao| integer (4)   | ano de facricação do veículo
 | ano_modelo    | integer (4)   | ano do modelo do veículo
 | promocao		| string        | status do veículo em promoção (S ou N)
-| preco			| float			| preço do veículo
+| preco			| integer		| preço do veículo, Ex: 25900 (sem centavos)
 | dias_estoque  | integer       | número dos dias em estoque
 | observacao    | string        | observações do vendedor/concessionária
 | imagens       | array         | lista das URLs das imagens do veículo
