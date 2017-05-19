@@ -299,6 +299,7 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 
 | campo         | tipo          |  descrição    |
 | ------------- | ------------- | ------------- |
+| contrato_id	| integer		| código da integração "/connect/contracts/"
 | tipo			| string		| código do tipo (N para novo e U para usado)
 | categoria	    | integer		| código da categoria (carro, moto ou caminhão)
 | filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
