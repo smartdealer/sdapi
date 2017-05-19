@@ -294,6 +294,32 @@ Lista as integrações configuradas (contratos de integração)
 | segmento      | integer      | categoria principal, vide "/config/categories/"
 | valido        | boolean      | status operacional da integração (true = integrado)
 
+##### POST : /connect/offer/ 
+Cadastra um veículo para publicação em um pacote de ofertas (connect)
+
+| campo         | tipo          |  descrição    |
+| ------------- | ------------- | ------------- |
+| id            | integer       | **id** do veículo no estoque
+| tipo			| string		| código do tipo (N para novo e U para usado)
+| categoria	    | integer		| código da categoria (carro, moto ou caminhão)
+| filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
+| placa         | string        | placa do veículo (se houver)
+| chassi        | string        | chassi do veículo (se houver)
+| marca         | string        | descrição da marca 
+| modelo        | string        | descrição do mode
+| cor			| string	 	| descrição da cor
+| portas        | integer       | quantidade de portas do veículo
+| tramissao     | string        | descrição da transmissão
+| km			| integer       | quilometragem do veículo
+| combustivel   | string        | descrição do combustível
+| ano_fabricacao| integer (4)   | ano de facricação do veículo
+| ano_modelo    | integer (4)   | ano do modelo do veículo
+| promocao		| string        | status do veículo em promoção (S ou N)
+| preco			| float			| preço do veículo
+| dias_estoque  | integer       | número dos dias em estoque
+| observacao    | string        | observações do vendedor/concessionária
+| imagens       | array         | lista das imagens do veículo (cada imagem em BASE64)
+
 ##### GET : /connect/packs/ 
 Lista os pacotes de ofertas disponíveis (connect)
 
@@ -307,8 +333,66 @@ Lista os pacotes de ofertas disponíveis (connect)
 ##### GET : /connect/pack/:id 
 Lista as ofertas de um determinado pacote (connect)
 
+| campo         | tipo         |  descrição  |
+| ------------- | ------------- | ------------- |
+| id            | integer       | **id** do veículo no estoque
+| tipo			| string		| código do tipo (N para novo e U para usado)
+| categoria	    | integer		| código da categoria (carro, moto ou caminhão)
+| filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
+| placa         | string        | placa do veículo (se houver)
+| chassi        | string        | chassi do veículo (se houver)
+| marca         | string        | descrição da marca 
+| modelo_id     | string        | código do modelo
+| modelo        | string        | descrição do modelo
+| cor_id		| string		| codigo da cor
+| cor			| string	 	| descrição da cor
+| km			| integer       | quilometragem do veículo
+| combustivel   | string        | descrição do combustível
+| ano_fabricacao| integer (4)   | ano de facricação do veículo
+| ano_modelo    | integer (4)   | ano do modelo do veículo
+| promocao		| string        | status do veículo em promoção (S ou N)
+| preco			| float			| preço do veículo
+| dias_estoque  | integer       | número dos dias em estoque
+| observacao    | string        | observações do vendedor/concessionária
+| imagens       | array         | lista das URLs das imagens do veículo
+| registro      | datetime      | data da ultima atualização no portal
+| ordem         | integer       | número da sequência no pacote
+| codigo_anuncio| string        | código do anúncio no portal
+| link          | string        | link do anúncio no portal
+| retorno       | string        | reposta do portal em caso de falhas no registro
+| update        | boolean       | status de ativo para a proxima sincronização
+    
 ##### GET : /connect/offers/
 Lista todas as ofertas do cliente
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------- | ------------- |
+| id            | integer       | **id** do veículo no estoque
+| tipo			| string		| código do tipo (N para novo e U para usado)
+| categoria	    | integer		| código da categoria (carro, moto ou caminhão)
+| filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
+| placa         | string        | placa do veículo (se houver)
+| chassi        | string        | chassi do veículo (se houver)
+| marca         | string        | descrição da marca 
+| modelo_id     | string        | código do modelo
+| modelo        | string        | descrição do modelo
+| cor_id		| string		| codigo da cor
+| cor			| string	 	| descrição da cor
+| km			| integer       | quilometragem do veículo
+| combustivel   | string        | descrição do combustível
+| ano_fabricacao| integer (4)   | ano de facricação do veículo
+| ano_modelo    | integer (4)   | ano do modelo do veículo
+| promocao		| string        | status do veículo em promoção (S ou N)
+| preco			| float			| preço do veículo
+| dias_estoque  | integer       | número dos dias em estoque
+| observacao    | string        | observações do vendedor/concessionária
+| imagens       | array         | lista das URLs das imagens do veículo
+| registro      | datetime      | data da ultima atualização no portal
+| ordem         | integer       | número da sequência no pacote
+| codigo_anuncio| string        | código do anúncio no portal
+| link          | string        | link do anúncio no portal
+| retorno       | string        | reposta do portal em caso de falhas no registro
+| update        | boolean       | status de ativo para a proxima sincronização
 
 ### Parâmetros de configuração
 
