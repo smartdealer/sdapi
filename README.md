@@ -299,7 +299,6 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 
 | campo         | tipo          |  descrição    |
 | ------------- | ------------- | ------------- |
-| id            | integer       | **id** do veículo no estoque
 | tipo			| string		| código do tipo (N para novo e U para usado)
 | categoria	    | integer		| código da categoria (carro, moto ou caminhão)
 | filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
@@ -316,7 +315,6 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 | ano_modelo    | integer (4)   | ano do modelo do veículo
 | promocao		| string        | status do veículo em promoção (S ou N)
 | preco			| float			| preço do veículo
-| dias_estoque  | integer       | número dos dias em estoque
 | observacao    | string        | observações do vendedor/concessionária
 | imagens       | array         | lista das imagens do veículo (cada imagem em BASE64)
 
