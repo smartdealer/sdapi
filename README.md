@@ -1,5 +1,7 @@
 # Smart Dealer Client API
-API de comunicação (for PHP servers) com o software para revendas e concessionárias Smart Dealer
+## Use a tecnologia Smart na sua empresa ou agência
+### 98% de precisão na detecção automática de modelos/versões e compatibilidade de listas
+API e documentação de comunicação (for PHP servers) com a plataforma para revendas e concessionárias Smart Dealer.
 
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/) [![PHPPackages Rank](http://phppackages.org/p/smartdealer/sdapi/badge/rank.svg)](http://phppackages.org/p/smartdealer/sdapi) ![](https://reposs.herokuapp.com/?path=smartdealer/sdapi&style=flat)
 
@@ -182,7 +184,7 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 
 | campo         | tipo         |  descrição  |
 | -------------   | ------------ | ------------- |
-| status          | interger   | código de retorno
+| status          | integer    | código de retorno
 | errors          | array      | listagem de erros (se houver, status 500)
 | response        | mixed      | resposta adicional do método
 
@@ -201,7 +203,7 @@ Lista as categorias de veículos do estoque (carro, moto, caminhão)
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------ | ------------- |
-| id            | interger     | id da categoria*
+| id            | integer      | id da categoria*
 | descricao     | string       | nome da categoria (Ex: Carro)
 
 ##### POST : /config/affiliate/
@@ -210,7 +212,7 @@ Cadastra um novo cliente/CNPJ no sistema
 | campo         | tipo         |  descrição  |
 | ------------- | ------------ | ------------- |
 | nome          | string       | nome do cliente (Ex: Exemplo Fiat) 
-| cnpj          | interger     | cnpj do cliente (14 digitos)
+| cnpj          | integer      | cnpj do cliente (14 digitos)
 | razao_social  | string       | razão social (Ex: Exemplo Fiat Veículos Ltda.)
 | matriz        | boolean      | especifica se cadastro é matriz ou loja principal
 
@@ -221,7 +223,7 @@ Lista as filiais/lojas do cliente
 | ------------- | ------------ | ------------- |
 | nome          | string       | nome do cliente (Ex: Exemplo Fiat) 
 | cep           | string       | endereço de cep
-| cnpj          | interger     | cnpj do cliente (14 digitos)
+| cnpj          | integer      | cnpj do cliente (14 digitos)
 | razao_social  | string       | razão social (Ex: Exemplo Fiat Veículos Ltda.)
 | endereco      | string       | endereço da concessionária/revenda
 | bairro        | string       | nome do bairro
@@ -255,41 +257,41 @@ Lista os canais/portais disponíveis para integração
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------ | ------------- |
-| id            | interger     | código do canal
+| id            | integer      | código do canal
 | nome          | string       | nome do canal (Ex: Portal iCarros) 
 | identificador | string       | nome do drive identificador (Ex: icarros)
-| status        | interger     | 1 na fila, 2 em manutenção, 3 disponível
+| status        | integer      | 1 na fila, 2 em manutenção, 3 disponível
 
 ##### POST : /connect/contract/ 
 Cria uma configuração de integração (connect)
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------ | ------------- |
-| site_id       | interger     | id do canal de integração (vide ~/channels/)
-| status        | interger     | 1 atualização automática ativa, 0 desativada
-| anuncios      | interger     | total de anúncios do plano (apenas para cálculo)
-| filial        | interger     | filial a ser lida/publicada (ofertas)
-| cnpj          | interger     | cnpj utilizado na conta do portal
+| site_id       | integer      | id do canal de integração (vide ~/channels/)
+| status        | integer      | 1 atualização automática ativa, 0 desativada
+| anuncios      | integer      | total de anúncios do plano (apenas para cálculo)
+| filial        | integer      | filial a ser lida/publicada (ofertas)
+| cnpj          | integer      | cnpj utilizado na conta do portal
 | login         | string       | login/email utilizado na conta do portal
 | senha         | string       | senha da conta do portal
-| segmento      | interger     | categoria principal, vide "/config/categories/"
+| segmento      | integer      | categoria principal, vide "/config/categories/"
 
 ##### GET : /connect/contracts/
 Lista as integrações configuradas (contratos de integração)
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------ | ------------- |
-| id            | interger     | código do contrato/integração
-| site_id       | interger     | id do canal de integração vide "connect/channels/"
+| id            | integer      | código do contrato/integração
+| site_id       | integer      | id do canal de integração vide "connect/channels/"
 | data_criacao  | string       | data do cadastro da integração
 | identificador | string       | nome do canal integrado (Ex: webmotors)
-| status        | interger     | 1 atualização automática ativa, 0 desativada
-| anuncios      | interger     | total de anúncios do plano (definido no cadastro)
-| tot_destaque  | interger     | total de anúncios em destaque (pós sincronização)
-| tot_manual    | interger     | anúncios cadastrados pelo portal (pós sincronização)
+| status        | integer      | 1 atualização automática ativa, 0 desativada
+| anuncios      | integer      | total de anúncios do plano (definido no cadastro)
+| tot_destaque  | integer      | total de anúncios em destaque (pós sincronização)
+| tot_manual    | integer      | anúncios cadastrados pelo portal (pós sincronização)
 | login         | string       | login/email utilizado na conta do portal
 | senha         | string       | senha da conta do portal
-| segmento      | interger     | categoria principal, vide "/config/categories/"
+| segmento      | integer      | categoria principal, vide "/config/categories/"
 | valido        | boolean      | status operacional da integração (true = integrado)
 
 ##### GET : /connect/packs/ 
@@ -297,9 +299,9 @@ Lista os pacotes de ofertas disponíveis (connect)
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------ | ------------- |
-| id            | interger     | código do pacote
+| id            | integer      | código do pacote
 | nome          | string       | nome customizado do pacote (Ex: Feirão iCarros) 
-| status        | interger     | 1 ativo, 0 bloqueado
+| status        | integer      | 1 ativo, 0 bloqueado
 | ultimo_envio  | datetime     | data do ultimo envio
 
 ##### GET : /connect/pack/:id 
@@ -374,7 +376,7 @@ Fluxo de interação com o webservice Smart via Api na integração com portais 
 
 ### Atualização regular
 
-@Release 1.3 
+@Release 1.4 
 
 Nota da versão:
 
