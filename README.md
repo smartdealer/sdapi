@@ -309,7 +309,7 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 | modelo        | string        | descrição do mode
 | cor			| string	 	| descrição da cor
 | portas        | integer       | quantidade de portas do veículo
-| tramissao     | string        | descrição da transmissão
+| transmissao   | string        | descrição da transmissão
 | km			| integer       | quilometragem do veículo
 | combustivel   | string        | descrição do combustível
 | ano_fabricacao| integer (4)   | ano de facricação do veículo
