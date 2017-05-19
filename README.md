@@ -316,6 +316,7 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 | promocao		| string        | status do veículo em promoção (S ou N)
 | preco			| float			| preço do veículo
 | observacao    | string        | observações do vendedor/concessionária
+| opcionais     | string        | opcionais separados por ";", ex: "ar condicionado;trava;direção" 
 | imagens       | array         | lista das imagens do veículo (cada imagem em BASE64)
 
 ##### GET : /connect/packs/ 
