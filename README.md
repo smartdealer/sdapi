@@ -154,8 +154,20 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
   $api->post('/route/method/:id', $data);
   
 ~~~  
+
+#### DELETE (deleção de dados)
+
+~~~.php
   
-##### Retorno padrão
+  $data = array();
+  
+  # remove data (required ID param) 
+  $api->delete('/route/method/:id');
+  
+~~~  
+  
+
+##### Retorno padrão (para uso das rotas HTTP)
 
 ~~~.json
 {
@@ -181,16 +193,6 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 | 200           | sucesso      | 
 | 400           | em manutenção| 
 | 500           | error        | 
-
-#### DELETE (deleção de registros)
-
-~~~.php
-  
-  # delete data
-  $api->delete('/route/method/:id');
-
-
-~~~
 
 ### Métodos do webservice (configuração)
 
@@ -292,6 +294,13 @@ Lista as integrações configuradas (contratos de integração)
 
 ##### GET : /connect/packs/ 
 Lista os pacotes de ofertas disponíveis (connect)
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------ | ------------- |
+| id            | interger     | código do pacote
+| nome          | string       | nome customizado do pacote (Ex: Feirão iCarros) 
+| status        | interger     | 1 ativo, 0 bloqueado
+| ultimo_envio  | datetime     | data do ultimo envio
 
 ##### GET : /connect/pack/:id 
 Lista as ofertas de um determinado pacote (connect)
