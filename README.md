@@ -1,5 +1,5 @@
 # Smart Dealer Client API
-## Use a tecnologia Smart na sua empresa ou agência
+### Use a tecnologia Smart na sua empresa ou agência
 ### 98% de precisão na detecção automática de modelos/versões e compatibilidade de listas
 API e documentação de comunicação (for PHP servers) com a plataforma para revendas e concessionárias Smart Dealer.
 
