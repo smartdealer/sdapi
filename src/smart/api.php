@@ -95,7 +95,11 @@ class Api {
         '/connect/offers/' => array(
             'method' => 'get',
             'desc' => 'list all offers related',
-        )
+        ),
+        '/connect/offer/' => array(
+            'method' => 'api',
+            'desc' => 'register new offer to publish',
+        ),
     );
 
     const WS_PATH = '.smartdealer.com.br/webservice/rest/';
