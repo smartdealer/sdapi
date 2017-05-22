@@ -405,6 +405,15 @@ Lista todas as ofertas do cliente
 | status_codigo    | string     | código de retorno
 | status_descricao | string     | tradução do retorno
 
+##### DELETE : /connect/offer/:id
+Remove a oferta do pacote e do portal (pós sincronização automática)
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------- | ------------- |
+| id            | integer       | **id** da oferta no pacote
+
+A flag :id deverá ser substituída pelo código da oferta, ex: "/connect/offer/1".
+
 ### Parâmetros de configuração
 
 ~~~.php
