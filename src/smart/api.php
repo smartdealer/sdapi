@@ -97,8 +97,16 @@ class Api {
             'desc' => 'list all offers related',
         ),
         '/connect/offer/' => array(
-            'method' => 'api',
+            'method' => 'post',
             'desc' => 'register new offer to publish',
+        ),
+        '/connect/offer/:id' => array(
+            'method' => 'delete',
+            'desc' => 'delete offer from pack',
+        ),
+        '/connect/codes/' => array(
+            'method' => 'get',
+            'desc' => 'translate response codes list',
         ),
     );
 
