@@ -262,6 +262,20 @@ Lista os canais/portais disponíveis para integração
 | identificador | string       | nome do drive identificador (Ex: icarros)
 | status        | integer      | 1 na fila, 2 em manutenção, 3 disponível
 
+##### GET : /connect/codes/
+Lista de tradução dos códigos de resposta dos canais de integração.
+
+Breve exemplo, para ver a lista completa faça uma chamada a rota Rest acima.
+
+| codigo        | descricao        
+| ------------- | ------------ | 
+| 7             | versão incompatível c/ o ano 
+| 13            | a cor informada é inválida   
+| 16            | plano ou categoria inválido  
+| 21            | limite da categoria esgotado 
+| 33            | preço abaixo do permitido (20% FIPE) 
+| 300           | combustíveis não carregados
+
 ##### POST : /connect/contract/ 
 Cria uma configuração de integração (connect)
 
