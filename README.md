@@ -262,6 +262,20 @@ Lista os canais/portais disponíveis para integração
 | identificador | string       | nome do drive identificador (Ex: icarros)
 | status        | integer      | 1 na fila, 2 em manutenção, 3 disponível
 
+##### GET : /connect/codes/
+Lista de tradução dos códigos de resposta dos canais de integração.
+
+Breve exemplo, para ver a lista completa faça uma chamada a rota Rest acima.
+
+| codigo        | descricao        
+| ------------- | ------------ | 
+| 7             | versão incompatível c/ o ano 
+| 13            | a cor informada é inválida   
+| 16            | plano ou categoria inválido  
+| 21            | limite da categoria esgotado 
+| 33            | preço abaixo do permitido (20% FIPE) 
+| 300           | combustíveis não carregados
+
 ##### POST : /connect/contract/ 
 Cria uma configuração de integração (connect)
 
@@ -299,26 +313,25 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 
 | campo         | tipo          |  descrição    |
 | ------------- | ------------- | ------------- |
-| id            | integer       | **id** do veículo no estoque
+| contrato_id	| integer		| código da integração "/connect/contracts/"
 | tipo			| string		| código do tipo (N para novo e U para usado)
-| categoria	    | integer		| código da categoria (carro, moto ou caminhão)
-| filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
+| categoria	    | integer		| código da categoria "/config/categories/"
 | placa         | string        | placa do veículo (se houver)
 | chassi        | string        | chassi do veículo (se houver)
 | marca         | string        | descrição da marca 
 | modelo        | string        | descrição do mode
 | cor			| string	 	| descrição da cor
 | portas        | integer       | quantidade de portas do veículo
-| tramissao     | string        | descrição da transmissão
+| transmissao   | string        | descrição da transmissão
 | km			| integer       | quilometragem do veículo
 | combustivel   | string        | descrição do combustível
 | ano_fabricacao| integer (4)   | ano de facricação do veículo
 | ano_modelo    | integer (4)   | ano do modelo do veículo
 | promocao		| string        | status do veículo em promoção (S ou N)
 | preco			| float			| preço do veículo
-| dias_estoque  | integer       | número dos dias em estoque
 | observacao    | string        | observações do vendedor/concessionária
-| imagens       | array         | lista das imagens do veículo (cada imagem em BASE64)
+| opcionais     | string        | opcionais separados por ";", ex: "ar condicionado;trava;direção" 
+| imagens       | array         | lista[0,1,2] das imagens do veículo (código fonte em **BASE64**)
 
 ##### GET : /connect/packs/ 
 Lista os pacotes de ofertas disponíveis (connect)
@@ -336,6 +349,9 @@ Lista as ofertas de um determinado pacote (connect)
 | campo         | tipo         |  descrição  |
 | ------------- | ------------- | ------------- |
 | id            | integer       | **id** do veículo no estoque
+| ordem         | integer       | posição no pacote (ordem de publicação)
+| pacote_id     | integer       | código do pacote de ofertas
+| driver        | string        | identificador do canal de integração, ex: "icarros"
 | tipo			| string		| código do tipo (N para novo e U para usado)
 | categoria	    | integer		| código da categoria (carro, moto ou caminhão)
 | filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
@@ -353,21 +369,27 @@ Lista as ofertas de um determinado pacote (connect)
 | promocao		| string        | status do veículo em promoção (S ou N)
 | preco			| float			| preço do veículo
 | dias_estoque  | integer       | número dos dias em estoque
+| opcionais     | string        | opcionais separados por ";", ex: "ar condicionado;trava;direção" 
 | observacao    | string        | observações do vendedor/concessionária
 | imagens       | array         | lista das URLs das imagens do veículo
 | registro      | datetime      | data da ultima atualização no portal
 | ordem         | integer       | número da sequência no pacote
-| codigo_anuncio| string        | código do anúncio no portal
-| link          | string        | link do anúncio no portal
-| retorno       | string        | reposta do portal em caso de falhas no registro
-| update        | boolean       | status de ativo para a proxima sincronização
-    
+| anuncio_status   | string     | status de publicação no portal 1 = publicado, 0 = offline
+| anuncio_envio    | string     | data da ultima sincronização do anúncio
+| anuncio_codigo   | string     | código do anúncio no portal
+| anuncio_link     | string     | link do anúncio no portal
+| status_codigo    | string     | código de retorno
+| status_descricao | string     | tradução do retorno
+
 ##### GET : /connect/offers/
 Lista todas as ofertas do cliente
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------- | ------------- |
 | id            | integer       | **id** do veículo no estoque
+| ordem         | integer       | posição no pacote (ordem de publicação)
+| pacote_id     | integer       | código do pacote de ofertas
+| driver        | string        | identificador do canal de integração, ex: "icarros"
 | tipo			| string		| código do tipo (N para novo e U para usado)
 | categoria	    | integer		| código da categoria (carro, moto ou caminhão)
 | filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
@@ -385,14 +407,26 @@ Lista todas as ofertas do cliente
 | promocao		| string        | status do veículo em promoção (S ou N)
 | preco			| float			| preço do veículo
 | dias_estoque  | integer       | número dos dias em estoque
+| opcionais     | string        | opcionais separados por ";", ex: "ar condicionado;trava;direção" 
 | observacao    | string        | observações do vendedor/concessionária
 | imagens       | array         | lista das URLs das imagens do veículo
 | registro      | datetime      | data da ultima atualização no portal
 | ordem         | integer       | número da sequência no pacote
-| codigo_anuncio| string        | código do anúncio no portal
-| link          | string        | link do anúncio no portal
-| retorno       | string        | reposta do portal em caso de falhas no registro
-| update        | boolean       | status de ativo para a proxima sincronização
+| anuncio_status   | string     | status de publicação no portal 1 = publicado, 0 = offline
+| anuncio_envio    | string     | data da ultima sincronização do anúncio
+| anuncio_codigo   | string     | código do anúncio no portal
+| anuncio_link     | string     | link do anúncio no portal
+| status_codigo    | string     | código de retorno
+| status_descricao | string     | tradução do retorno
+
+##### DELETE : /connect/offer/:id
+Remove a oferta do pacote e do portal (pós sincronização automática)
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------- | ------------- |
+| id            | integer       | **id** da oferta no pacote
+
+A flag :id deverá ser substituída pelo código da oferta, ex: "/connect/offer/1".
 
 ### Parâmetros de configuração
 
@@ -460,7 +494,7 @@ Fluxo de interação com o webservice Smart via Api na integração com portais 
 
 ### Atualização regular
 
-@Release 1.4 
+@Release 1.5
 
 Nota da versão:
 
