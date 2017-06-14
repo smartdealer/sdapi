@@ -13,5 +13,10 @@
             "email": "patrick@smartdealership.com.br"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Smart\\": "src/Smart"
+        }
+    }
 }
