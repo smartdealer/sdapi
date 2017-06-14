@@ -1,7 +1,9 @@
 <?php
 
 // incluse API class
-include '../src/smart/api.php';
+// include '../src/smart/api.php';
+
+include __DIR__ . '/../vendor/autoload.php';
 
 // auth settings
 $sdl = 'http://api.smartdealer.com.br';
