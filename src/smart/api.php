@@ -5,9 +5,9 @@
  *
  * @package   Smart Dealership
  * @author    Patrick Otto <patrick@smartdealership.com.br>
- * @version   1.1
+ * @version   1.1.2
  * @access    public
- * @copyright Smart Dealer(c), 2015
+ * @copyright Smart Dealer(c), 2015 - 2018
  * @see       http://www.smartdealer.com.br
  *
  * @param  string $sdl the client instance name ou URL of werbservice ex: dealership or http://domain.com/rest/
@@ -51,6 +51,10 @@ class Api {
         '/parts/' => array(
             'method' => 'get',
             'desc' => 'returns a parts list'
+        ),
+        '/parts/:id' => array(
+            'method' => 'get',
+            'desc' => 'returns a parts list (page)'
         ),
         '/parts/provider/' => array(
             'method' => 'get',
@@ -199,11 +203,11 @@ class Api {
                     $arg = http_build_query($arg);
 
                     $header = "POST / HTTP/1.0\r\n\r\n";
-                    $header.= "Accept: text/html\r\n";
-                    $header.= "Authorization: Basic $auth\r\n\r\n";
-                    $header.= "Content-Type: application/x-www-form-urlencoded\r\n\r\n";
-                    $header.= "Content-Length: " . strlen($arg) . "\r\n\r\n";
-                    $header.= $arg . "\r\n\r\n";
+                    $header .= "Accept: text/html\r\n";
+                    $header .= "Authorization: Basic $auth\r\n\r\n";
+                    $header .= "Content-Type: application/x-www-form-urlencoded\r\n\r\n";
+                    $header .= "Content-Length: " . strlen($arg) . "\r\n\r\n";
+                    $header .= $arg . "\r\n\r\n";
 
                     $host = preg_replace('/^\w+\:\/\//', '', $this->sdl . $rest);
                     $fp = fsockopen($host, $port, $errno, $errstr, $time);
@@ -349,8 +353,8 @@ class Api {
                 case 'socket' :
 
                     $header = "GET / HTTP/1.0\r\n\r\n";
-                    $header.= "Accept: text/html\r\n";
-                    $header.= "Authorization: Basic $auth\r\n\r\n";
+                    $header .= "Accept: text/html\r\n";
+                    $header .= "Authorization: Basic $auth\r\n\r\n";
 
                     $host = preg_replace('/^\w+\:\/\//', '', $this->sdl . $rest);
 
