@@ -6,7 +6,7 @@
         "lib-curl": "^7.36",
         "lib-openssl": "^1.0.1"
     },
-    "license": "GPL3.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Patrick Otto",
