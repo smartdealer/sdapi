@@ -428,6 +428,15 @@ Remove a oferta do pacote e do portal (pós sincronização automática)
 
 A flag :id deverá ser substituída pelo código da oferta, ex: "/connect/offer/1".
 
+##### DELETE : /connect/contract/:id 
+Remove uma configuração de integração e seus pacotes (contrato)
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------- | ------------- |
+| id            | integer       | **id** do contrato
+
+A flag :id deverá ser substituída pelo código do contrato, ex: "/connect/contract/1".
+
 ### Parâmetros de configuração
 
 ~~~.php
@@ -494,7 +503,7 @@ Fluxo de interação com o webservice Smart via Api na integração com portais 
 
 ### Atualização regular
 
-@Release 1.5
+@Release 1.6
 
 Nota da versão:
 
