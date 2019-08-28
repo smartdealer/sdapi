@@ -112,6 +112,10 @@ class Api {
             'method' => 'get',
             'desc' => 'translate response codes list',
         ),
+        '/connect/contract/:id' => array(
+            'method' => 'delete',
+            'desc' => 'remove one contract (integration client settings)',
+        ),
     );
 
     const WS_PATH = '.smartdealer.com.br/webservice/rest/';
