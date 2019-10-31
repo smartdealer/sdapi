@@ -299,7 +299,8 @@ Lista as integrações configuradas (contratos de integração)
 | id            | integer      | código do contrato/integração
 | site_id       | integer      | id do canal de integração vide "connect/channels/"
 | data_criacao  | string       | data do cadastro da integração
-| identificador | string       | nome do canal integrado (Ex: webmotors)
+| identificador | string       | nome do canal ou portal integrado (Ex: webmotors)
+| nome          | string       | nome de indentificação do contrato
 | status        | integer      | 1 atualização automática ativa, 0 desativada
 | anuncios      | integer      | total de anúncios do plano (definido no cadastro)
 | tot_destaque  | integer      | total de anúncios em destaque (pós sincronização)
