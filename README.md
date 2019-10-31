@@ -284,6 +284,7 @@ Cria uma configuração de integração (connect)
 | site_id       | integer      | id do canal de integração (vide ~/channels/)
 | status        | integer      | 1 atualização automática ativa, 0 desativada
 | anuncios      | integer      | total de anúncios do plano (apenas para cálculo)
+| nome          | string       | nome de indentificação do contrato
 | filial        | integer      | filial a ser lida/publicada (ofertas)
 | cnpj          | integer      | cnpj utilizado na conta do portal
 | login         | string       | login/email utilizado na conta do portal
