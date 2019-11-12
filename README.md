@@ -291,6 +291,16 @@ Cria uma configuração de integração (connect)
 | senha         | string       | senha da conta do portal
 | segmento      | integer      | categoria principal, vide "/config/categories/"
 
+*Filtros*
+
+| parâmetro     | tipo         |  descrição    |  exemplo |
+| ------------- | ------------ | ------------- | -------- |
+| filial       | integer      | ID da filial  | 1
+
+*Uso*
+
+    https://{usuario}:{chave}@{cliente}.smartdealer.com.br/webservice/rest/connect/contracts?param=value
+
 ##### GET : /connect/contracts/
 Lista as integrações configuradas (contratos de integração)
 
