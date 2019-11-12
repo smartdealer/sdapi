@@ -216,6 +216,16 @@ Cadastra um novo cliente/CNPJ no sistema
 | razao_social  | string       | razão social (Ex: Exemplo Fiat Veículos Ltda.)
 | matriz        | boolean      | especifica se cadastro é matriz ou loja principal
 
+*Filtros*
+
+| parâmetro     | tipo         |  descrição    |  exemplo |
+| ------------- | ------------ | ------------- | -------- |
+| cnpj       | numeric      | CNPJ da filial  | 80935893000104
+
+*Uso*
+
+    https://{usuario}:{chave}@{cliente}.smartdealer.com.br/webservice/rest/connect/contracts?param=value
+
 ##### GET : /config/affiliates/
 Lista as filiais/lojas do cliente
 
