@@ -335,6 +335,10 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 | opcionais     | string        | opcionais separados por ";", ex: "ar condicionado;trava;direção" 
 | imagens       | array         | lista[0,1,2] das imagens do veículo (código fonte em **BASE64**)
 
+*Formato das imagens (em base64)*
+
+![alt tag](http://smartdealership.com.br/img/api/formato-base64-imagens.png)
+
 ##### GET : /connect/packs/ 
 Lista os pacotes de ofertas disponíveis (connect)
 
