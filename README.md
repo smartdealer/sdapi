@@ -369,6 +369,17 @@ Lista os pacotes de ofertas disponíveis (connect)
 | status        | integer      | 1 ativo, 0 bloqueado
 | ultimo_envio  | datetime     | data do ultimo envio
 
+*Filtros*
+
+| parâmetro     | tipo         |  descrição    |  exemplo |
+| ------------- | ------------ | ------------- | -------- |
+| contrato      | numeric      | ID da integração  | 1
+
+*Uso*
+
+    https://{usuario}:{chave}@{cliente}.smartdealer.com.br/webservice/rest/connect/contracts?param=value
+
+
 ##### GET : /connect/pack/:id 
 Lista as ofertas de um determinado pacote (connect)
 
