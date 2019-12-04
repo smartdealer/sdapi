@@ -359,6 +359,55 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 
 ![alt tag](http://smartdealership.com.br/img/api/formato-base64-imagens.png)
 
+##### POST : /stock/vehicle/:id 
+Atualiza um veículo em estoque em um pacote de ofertas (stock)
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------- | ------------- |
+| id            | string        | **id** do veículo em estoque
+
+A flag :id deverá ser substituída pelo código da oferta, ex: "/stock/vehicle/abd123_1".
+
+*Parâmetros da chamada*
+
+| campo         | tipo         |  descrição  |
+| ------------- | ------------- | ------------- |
+| ordem         | integer       | posição no pacote (ordem de publicação)
+| pacote_id     | integer       | código do pacote de ofertas
+| driver        | string        | identificador do canal de integração, ex: "icarros"
+| tipo			| string		| código do tipo (N para novo e U para usado)
+| categoria	    | integer		| código da categoria (carro, moto ou caminhão)
+| filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
+| placa         | string        | placa do veículo (se houver)
+| chassi        | string        | chassi do veículo (se houver)
+| marca         | string        | descrição da marca 
+| modelo_id     | string        | código do modelo
+| modelo        | string        | descrição do modelo
+| cor_id		| string		| codigo da cor
+| cor			| string	 	| descrição da cor
+| km			| integer       | quilometragem do veículo
+| combustivel   | string        | descrição do combustível
+| ano_fabricacao| integer (4)   | ano de facricação do veículo
+| ano_modelo    | integer (4)   | ano do modelo do veículo
+| promocao		| string        | status do veículo em promoção (S ou N)
+| preco			| float			| preço do veículo
+| dias_estoque  | integer       | número dos dias em estoque
+| opcionais     | string        | opcionais separados por ";", ex: "ar condicionado;trava;direção" 
+| observacao    | string        | observações do vendedor/concessionária
+| imagens       | array         | lista das URLs das imagens do veículo
+| registro      | datetime      | data da ultima atualização no portal
+| ordem         | integer       | número da sequência no pacote
+| anuncio_status   | string     | status de publicação no portal 1 = publicado, 0 = offline
+| anuncio_envio    | string     | data da ultima sincronização do anúncio
+| anuncio_codigo   | string     | código do anúncio no portal
+| anuncio_link     | string     | link do anúncio no portal
+| status_codigo    | string     | código de retorno
+| status_descricao | string     | tradução do retorno
+
+*Formato das imagens (em base64)*
+
+![alt tag](http://smartdealership.com.br/img/api/formato-base64-imagens.png)
+
 ##### GET : /connect/packs/ 
 Lista os pacotes de ofertas disponíveis (connect)
 
