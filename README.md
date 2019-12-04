@@ -360,7 +360,7 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 ![alt tag](http://smartdealership.com.br/img/api/formato-base64-imagens.png)
 
 ##### POST : /stock/vehicle/:id 
-Atualiza um veículo em estoque em um pacote de ofertas (stock)
+Atualiza um veículo em estoque (stock)
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------- | ------------- |
