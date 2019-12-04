@@ -102,7 +102,7 @@ Tradução dos campos retornados na consulta das ofertas selecionadas do estoque
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------- | ------------- |
-| id            | integer       | **id** do veículo no estoque
+| id            | integer       | **id** da oferta nos pacotes
 | tipo			| string		| código do tipo (N para novo e U para usado)
 | categoria	    | integer		| código da categoria (carro, moto ou caminhão)
 | filial        | integer       | **id** da filial, use a rota **/config/affiliates/** para listar
@@ -359,14 +359,14 @@ Cadastra um veículo para publicação em um pacote de ofertas (connect)
 
 ![alt tag](http://smartdealership.com.br/img/api/formato-base64-imagens.png)
 
-##### POST : /stock/vehicle/:id 
-Atualiza um veículo em estoque (stock)
+##### POST : /connect/offer/:id 
+Atualiza uma oferta de veículo no estoque (connect)
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------- | ------------- |
-| id            | string        | **id** do veículo em estoque
+| id            | integer        | **id** a oferta em estoque
 
-A flag :id deverá ser substituída pelo código da oferta, ex: "/stock/vehicle/abd123_1".
+A flag :id deverá ser substituída pelo código da oferta, ex: "/connect/offer/1".
 
 *Parâmetros da chamada*
 
@@ -434,7 +434,7 @@ Lista as ofertas de um determinado pacote (connect)
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------- | ------------- |
-| id            | integer       | **id** do veículo no estoque
+| id            | integer       | **id** da oferta
 | ordem         | integer       | posição no pacote (ordem de publicação)
 | pacote_id     | integer       | código do pacote de ofertas
 | driver        | string        | identificador do canal de integração, ex: "icarros"
@@ -472,7 +472,7 @@ Lista todas as ofertas do cliente
 
 | campo         | tipo         |  descrição  |
 | ------------- | ------------- | ------------- |
-| id            | integer       | **id** do veículo no estoque
+| id            | integer       | **id** da oferta
 | ordem         | integer       | posição no pacote (ordem de publicação)
 | pacote_id     | integer       | código do pacote de ofertas
 | driver        | string        | identificador do canal de integração, ex: "icarros"
