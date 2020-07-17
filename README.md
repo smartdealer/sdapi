@@ -1,4 +1,8 @@
 # Smart Dealer Client API
+
+### Repositório descontinuado, para a versão mais recente da API acesse:
+### [https://bitbucket.org/smartdealership/sdapi](http://https://bitbucket.org/smartdealership/sdapi)
+
 ### Use a tecnologia Smart na sua empresa ou agência
 ### 98% de precisão na detecção automática de modelos/versões e compatibilidade de listas
 API e documentação de comunicação (for PHP servers) com a plataforma para revendas e concessionárias Smart Dealer.
