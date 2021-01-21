@@ -18,18 +18,20 @@
 
 namespace Smart;
 
-class Api {
+class Api
+{
 
     private $debug_str, $sdl, $usr, $pwd, $error, $header_options = array();
     var $settings = array(
         'handle' => 'curl',
-        'timeout' => 10,
+        'timeout' => 20,
         'use_ssl' => true,
         'port' => 80,
         'debug' => false,
         'output_format' => 1,
         'output_compile' => true,
-        'gzip' => false
+        'gzip' => false,
+        'literal_response' => false
     );
     var $ws_header_options = array(
         'output_format' => 'integer',
@@ -118,20 +120,18 @@ class Api {
         ),
     );
 
-    const WS_PATH = '.smartdealer.com.br/webservice/rest/';
+    const WS_ROUTE = '/webservice/rest/';
+    const WS_PATH = '.smartdealer.com.br';
     const WS_DF_TIMEOUT = 10;
     const WS_DF_PORT = 80;
     const WS_SIGNATURE = '7cac394e6e2864b8e2f98e7fe815ab6b';
 
-    public function __construct($sdl, $usr, $pwd, Array $opt = array()) {
+    public function __construct($sdl, $usr, $pwd, array $opt = array())
+    {
 
-        $default = array(
-            'options' => array(
-                'default' => $this->protocol() . $sdl . self::WS_PATH
-            )
-        );
+        $instance = $this->protocol() . preg_replace('/.*\W([a-zA-Z]+)\.smartdealer.*/i', '$1', $sdl) . self::WS_PATH . '/' . trim(self::WS_ROUTE, ' /');
 
-        $this->sdl = trim(filter_var($sdl, FILTER_VALIDATE_URL, $default), ' /');
+        $this->sdl = trim(filter_var($instance, FILTER_VALIDATE_URL), ' /');
         $this->usr = filter_var($usr, FILTER_SANITIZE_STRING | FILTER_SANITIZE_SPECIAL_CHARS);
         $this->pwd = filter_var($pwd, FILTER_SANITIZE_STRING);
 
@@ -143,7 +143,8 @@ class Api {
         }
     }
 
-    public function get($rest, $arg = array()) {
+    public function get($rest, $arg = array())
+    {
 
         // reset
         $this->error = array();
@@ -158,7 +159,8 @@ class Api {
         return ($this->getError()) ? array() : $this->call($rest, $arg);
     }
 
-    public function post($rest, $arg = array()) {
+    public function post($rest, $arg = array())
+    {
 
         $a = '';
 
@@ -176,7 +178,7 @@ class Api {
 
         if (!empty($this->settings['handle'])) {
             switch ($this->settings['handle']) {
-                case 'curl' :
+                case 'curl':
 
                     // curl request 
                     $cr = curl_init($this->sdl . $rest);
@@ -189,10 +191,15 @@ class Api {
                     curl_setopt($cr, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
                     curl_setopt($cr, CURLOPT_SSL_VERIFYPEER, !empty($this->settings['use_sll']));
                     curl_setopt($cr, CURLOPT_POST, true);
-                    curl_setopt($cr, CURLOPT_POSTFIELDS, $arg);
+                    curl_setopt($cr, CURLOPT_POSTFIELDS, http_build_query($arg));
 
                     // exec
                     $a = curl_exec($cr);
+
+                    // show server response (for debug)
+                    if ($this->settings['literal_response']) {
+                        die($a);
+                    }
 
                     // validate
                     $this->validCurl($cr, $a);
@@ -201,7 +208,7 @@ class Api {
                     curl_close($cr);
 
                     break;
-                case 'socket' :
+                case 'socket':
 
                     // build query
                     $arg = http_build_query($arg);
@@ -236,7 +243,8 @@ class Api {
         return $this->output($a);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
 
         $a = '';
 
@@ -254,7 +262,7 @@ class Api {
 
         if (!empty($this->settings['handle'])) {
             switch ($this->settings['handle']) {
-                case 'curl' :
+                case 'curl':
 
                     // curl request 
                     $cr = curl_init($this->sdl . $id);
@@ -271,6 +279,11 @@ class Api {
                     // exec
                     $a = curl_exec($cr);
 
+                    // show server response (for debug)
+                    if ($this->settings['literal_response']) {
+                        die($a);
+                    }
+                    
                     // validate
                     $this->validCurl($cr, $a);
 
@@ -286,7 +299,8 @@ class Api {
         return $this->output($a);
     }
 
-    private function settings($opt) {
+    private function settings($opt)
+    {
 
         // Api settings
         $this->settings = array_merge($this->settings, array_intersect_key($opt, $this->settings));
@@ -300,7 +314,7 @@ class Api {
         $header = array_intersect_key($this->settings, $this->ws_header_options);
 
         // compile 
-        foreach ($header AS $a => $b) {
+        foreach ($header as $a => $b) {
             $this->header_options[] = ((isset($this->ws_header_options[$a])) && gettype($b) == $this->ws_header_options[$a]) ? ucfirst(str_replace('_', '-', $a)) . ': ' . $b : null;
         }
 
@@ -311,11 +325,13 @@ class Api {
         $this->header_options[] = 'Expect: 100-continue';
     }
 
-    public function methods() {
+    public function methods()
+    {
         return array_filter($this->methods);
     }
 
-    public function call($rest, $arg) {
+    public function call($rest, $arg)
+    {
 
         // check server
         if (!$this->validWs()) {
@@ -331,7 +347,7 @@ class Api {
 
         if (!empty($this->settings['handle'])) {
             switch ($this->settings['handle']) {
-                case 'curl' :
+                case 'curl':
 
                     // curl request 
                     $cr = curl_init($this->sdl . $rest);
@@ -347,6 +363,11 @@ class Api {
                     // exec
                     $a = $this->curl_exec_follow($cr);
 
+                    // show server response (for debug)
+                    if ($this->settings['literal_response']) {
+                        die($a);
+                    }
+
                     // validate
                     $this->validCurl($cr, $a);
 
@@ -354,7 +375,7 @@ class Api {
                     curl_close($cr);
 
                     break;
-                case 'socket' :
+                case 'socket':
 
                     $header = "GET / HTTP/1.0\r\n\r\n";
                     $header .= "Accept: text/html\r\n";
@@ -374,7 +395,7 @@ class Api {
                     fclose($fp);
 
                     break;
-                case 'stream' :
+                case 'stream':
 
                     // stream settings
                     $opts = array(
@@ -401,19 +422,23 @@ class Api {
         return $this->output($a);
     }
 
-    private function protocol() {
+    private function protocol()
+    {
         return 'http' . ((!empty($this->settings['use_ssl'])) ? 's' : '') . '://';
     }
 
-    private function logError($str) {
+    private function logError($str)
+    {
         $this->error[] = (string) $str;
     }
 
-    public function getError() {
+    public function getError()
+    {
         return $this->error;
     }
 
-    private function output($a = array()) {
+    private function output($a = array())
+    {
 
         if ($a && is_string($a)) {
             $this->debug_str = $a;
@@ -432,7 +457,8 @@ class Api {
         return $a;
     }
 
-    private function validWs() {
+    private function validWs()
+    {
 
         $url_open = ini_get('allow_url_fopen');
 
@@ -457,7 +483,8 @@ class Api {
         return key_exists(0, $sign) && !strstr($a[0], '404') && trim(end($sign)) === self::WS_SIGNATURE;
     }
 
-    private function validCurl($cr, &$a) {
+    private function validCurl($cr, &$a)
+    {
 
         if (curl_errno($cr)) {
             $this->logError(curl_error($cr));
@@ -466,7 +493,8 @@ class Api {
         }
     }
 
-    protected function curl_exec_follow($ch, $maxredirect = 1) {
+    protected function curl_exec_follow($ch, $maxredirect = 1)
+    {
 
         if (ini_get('open_basedir') == '' && ini_get('safe_mode' == 'Off')) {
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -500,5 +528,4 @@ class Api {
         }
         return curl_exec($ch);
     }
-
 }

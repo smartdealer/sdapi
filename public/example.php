@@ -15,10 +15,10 @@ $usr = 'teste';
 $pwd = '56e893aebac5c5e549997b9a61ccf3f76bfe2580';
 
 // instace SD Api
-$api = new Smart\Api($sdl, $usr, $pwd, array('debug' => false, 'output_format' => 1));
+$api = new Smart\Api($sdl, $usr, $pwd, array('debug' => false, 'literal_response' => false, 'output_format' => 1));
 
 // call Restful route
-$response = $api->get('/config/affiliates/');
+$response = $api->get('/connect/offers/');
 
 // collect erros
 $sts = $api->getError();
